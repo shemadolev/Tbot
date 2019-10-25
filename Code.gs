@@ -1,4 +1,3 @@
-var token = "";
 var url = "https://api.telegram.org/bot" + token;
 var webAppUrl = "https://script.google.com/macros/s/AKfycbxEQjmNaZczXm-iLT7kDVA0tnrhcnkd1O0uovvCC4qeFrfXw6GK/exec";
 var numberOfCourses = 1400; 
@@ -19,7 +18,7 @@ var YouTubeSy = "\ud83d\udcfa";
 var mainSy = "\ud83c\udfe0";
 
 var ride = "Ride groups (טרמפים) \ud83d\ude97";
-var faculty = "Faculty groups \ud83c\udfeb";
+var faculty = "Department groups \ud83c\udfeb";
 var add = "Add course \ud83d\udcd7";
 var course = "Courses \ud83d\udcda";
 var usefulLink = "useful links \ud83d\udd25";
@@ -156,26 +155,73 @@ function doPost(e){
       sendKey(id, "How may I help you?", mainKeyBoard);
       set(id, 0, name, 0);
     }
+    else if (text == "I want to play with you"){
+      sendText(id, "Sory "+name+" I can't play, but you can enjoy yourself: https://www.agame.com/games");
+    }
     else if (text == ride || text == 'רשימת אזורים'){
       sendKey(id, "Send the required city name or choose your region from the list below " + downSy, rideKeyBoard);
       set(id, "Ride");
+      var current = users.getRange(1, 2).getValue();
+      users.getRange(1, 2).setValue(++current);
     }
     else if (text == course || text == 'Another course'){
       removeKey(id, "Please insert the course number or course name in hebrew");
       set(id, "Course", name, 0);
+      var current = users.getRange(1, 1).getValue();
+      users.getRange(1, 1).setValue(++current);
     }
     else if (text == usefulLink){
       sendKey(id,"Here are some useful links for you" ,usefulKeyBoard);   
       set(id, 0);
+      var current = users.getRange(1, 5).getValue();
+      users.getRange(1, 5).setValue(++current);
     }
     else if (text == faculty){
       sendKey(id, "Choose your faculty from the list below ", coursesKeyBoard);
       set(id, 'faculty');
+      var current = users.getRange(1, 3).getValue();
+      users.getRange(1, 3).setValue(++current);
     }
     else if (text == feedback || text == "/feedback"){
       removeKey(id, "You can send your feedback now");
       set(id, 'feedback');
     }
+    else if (text == 'Copiers and printers'){
+      sendText(id, 'General info - http://www.asat.org.il/academic/contents/print/צילום_והדפסה');
+      sendText(id, 'in order to send a file to print start a new mail, type your ID in the SUBJECT.')
+      sendText(id, 'Attach your files (Office documents, pictures and pdf files)');
+      sendKey(id, 'Insert the recipient according to your desired task (click suitable tab to get email)', printKeyBoard)
+    }
+    else if (text == "A4 B&W single sided"){
+      sendText(id, 'A4 B&W single sided – print.bws@campus.technion.ac.il');
+    }
+    else if (text == "A4 B&W two sided"){
+      sendText(id, 'A4 B&W two sided – print.bwd@campus.technion.ac.il');
+    }
+    else if (text == "A4 Color single sided"){
+      sendText(id, 'A4 Color single sided – print.color@campus.technion.ac.il');
+    }
+    else if (text == "A3 B&W single sided"){
+      sendText(id, 'A3 B&W single sided – print.A3bws@campus.technion.ac.il')
+    }
+    else if (text == "A3 B&W two sided"){
+      sendText(id, 'A3 B&W two sided – print.A3bwd@campus.technion.ac.il')
+    }
+    else if (text == "A3 Color single sided"){
+      sendText(id, 'A3 Color single sided – print.A3color@campus.technion.ac.il')
+    }
+    else if (text == "B&W 2 slides per page, single sided"){
+      sendText(id, 'B&W 2 slides per page, single sided – print.2pbws@campus.technion.ac.il')
+    }
+    else if(text == "B&W 2 slides per page, two sided"){
+      sendText(id, 'B&W 2 slides per page, two sided – print.2pbwd@campus.technion.ac.il')
+    }
+    else if (text == "B&W 4 slides per page, single sided"){
+      sendText(id, 'B&W 4 slides per page, single sided – print.4pbws@campus.technion.ac.il')
+    }
+    else if(text == "B&W 4 slides per page, two sided"){
+      sendText(id, 'B&W 4 slides per page, two sided – print.4pbwd@campus.technion.ac.il')
+    }   
     else if (text == calendar){
       sendKey(id,"http://www.admin.technion.ac.il/dpcalendar/Student.aspx" ,usefulKeyBoard);   
       set(id, 0);
@@ -207,7 +253,7 @@ function doPost(e){
     }
     else if (text == drive || text == courseGroup || text == reviews || text == 'Get all' || text == facebook
              || text == youTube || text == ug || text == cs || text == 'All tests - exel'
-             || text == moodle || text == testock ||  text == "Course info"){
+             || text == moodle || text == testock ||  text == "Course info" || text == 'Teams group \ud83d\udc6a'){
       getDone(id, name, text, users, courses);
     }
     else if (text == 'Write a review'){
@@ -225,6 +271,10 @@ function doPost(e){
       sendText(id, "Note: to get a group link you need to open a group, then go to: Manage group (or click the edit symbol using smartphone) -> Group type -> Copy link");
       sendText(id, "Don't forget to make the group visible so new members will see messages that were sent before they joined");
     }  
+    else if (text == "Add Teams link"){
+      set(id, text);
+      sendText(id, "Please insert the group link");
+    }
     else if (text == "scans - cf"){
      sendText(id, "https://tscans.cf/");
     }
@@ -268,7 +318,7 @@ function doPost(e){
               // Send Alert Email.
               var message = text; 
               var subject = 'You have a new feedback from technoBot user';
-              MailApp.sendEmail(emailAddress, subject, message);
+            MailApp.sendEmail(emailAddress, subject, message + 'id: '+id+' ');
               sendText(id, "Thank you for your feedback! \uD83D\uDE4F");
               set(id, 0, name, 0);
               sendKey(id, "What would you like to do next?", mainKeyBoard);
@@ -307,7 +357,7 @@ function doPost(e){
               }
             }
             if (courseRow){
-              var j = 6;
+              var j = 7;
               while (courses.getRange(courseRow,j).getValue()){
                 j++;
               }
@@ -345,6 +395,40 @@ function doPost(e){
               }
               else{
                 courses.getRange(courseRow, 3).setValue(text);
+                sendText(id, "The group is added to " + courseNumber + ' ' + courseName);
+                set(id, 0, name, 0);
+                sendKey(id,'What would you like to do next?',mainKeyBoard)
+              }
+            }
+          }
+          else if (mode == 'Add Teams link'){
+            var row = users.createTextFinder(id).findAll();
+            var courseRow = 0;
+            if (row.length == 1){
+              if (row[0]){
+                var idRow = row[0].getRow();
+                courseRow = users.getRange(idRow, 4).getValue();
+                var courseNumber = courses.getRange(courseRow, 1).getValue();
+                var courseName = courses.getRange(courseRow, 2).getValue();
+                var group = courses.getRange(courseRow, 6).getValue();
+                if (group){
+                  sendText(id, 'The group is already exist');
+                  sendText(id, group);
+                  set(id, 0, name, 0);
+                  sendKey(id,'What would you like to do next?',mainKeyBoard)
+                  return;
+                }
+              }
+            }
+            if (courseRow){
+              var checkIfLink = text.split('ttps://teams.microsoft.com');
+              if (checkIfLink.length !== 2){
+                sendText(id, 'This is not a link to Teams group \ud83d\udc6a. Please try again');
+                sendKey(id,'What would you like to do next?',mainKeyBoard)
+                set(id, 0, name, 0);
+              }
+              else{
+                courses.getRange(courseRow, 6).setValue(text);
                 sendText(id, "The group is added to " + courseNumber + ' ' + courseName);
                 set(id, 0, name, 0);
                 sendKey(id,'What would you like to do next?',mainKeyBoard)
@@ -415,6 +499,7 @@ function doPost(e){
 function sendOpt(id, name, courses, courseRow){
   var exel = false;
   var cs = false;
+  var teams = false;
   set(id, 'Course', name, courseRow);
   var courseNumber = courses.getRange(courseRow, 1).getValue();
   var courseName = courses.getRange(courseRow, 2).getValue();
@@ -436,20 +521,41 @@ function sendOpt(id, name, courses, courseRow){
     cs = true;
   }
   if (courses.getRange(courseRow, 4).getValue()) exel = true;
-  if (exel && cs){
+  if (courses.getRange(courseRow, 6).getValue()) teams = true;
+  if (teams){
+    sendText(id, courseName + " - "+ courseNumber );
+    if (link) sendKey(id, "choose the required information", tgallKeyBoard);
+    else sendKey(id, "choose the required information", tallKeyBoard);
+  }
+  else if (exel && cs){
     sendText(id, courseName + " - "+ courseNumber );
     if (link) sendKey(id, "choose the required information", gexelCsKeyBoard);
     else sendKey(id, "choose the required information", exelCsKeyBoard);
+  }
+  else if (exel && cs && teams){
+    sendText(id, courseName + " - "+ courseNumber );
+    if (link) sendKey(id, "choose the required information", tgexelCsKeyBoard);
+    else sendKey(id, "choose the required information", texelCsKeyBoard);
   }
   else if (cs){
     sendText(id, courseName + " - "+ courseNumber );
     if (link) sendKey(id, "choose the required information", gcsKeyBoard);
     else sendKey(id, "choose the required information", csKeyBoard)
   }
+  else if (cs && teams){
+    sendText(id, courseName + " - "+ courseNumber );
+    if (link) sendKey(id, "choose the required information", tgcsKeyBoard);
+    else sendKey(id, "choose the required information", tcsKeyBoard)
+  }
   else if (exel){
     sendText(id, courseName + " - "+ courseNumber );
     if (link) sendKey(id, "choose the required information", gexelKeyBoard);
     else sendKey(id, "choose the required information", exelKeyBoard)
+  }
+  else if (exel && teams){
+    sendText(id, courseName + " - "+ courseNumber );
+    if (link) sendKey(id, "choose the required information", tgexelKeyBoard);
+    else sendKey(id, "choose the required information", texelKeyBoard)
   }
   else{
     sendText(id, courseName + " - "+ courseNumber );
@@ -473,6 +579,7 @@ function getDone(id, name, command, users, courses){
     var courseName = courses.getRange(courseRow, 2).getValue();
     var group = courses.getRange(courseRow, 3).getValue();
     var exel = courses.getRange(courseRow, 4).getValue();
+    var teams = courses.getRange(courseRow, 6).getValue();
     var csCourse = false;
     if ((courseNumber.indexOf('236') !== -1) || (courseNumber.indexOf('234') !== -1)){
       csCourse = true;
@@ -486,6 +593,11 @@ function getDone(id, name, command, users, courses){
         sendText(id, "Looking for telegram group" + groupSy);
         if (group) sendText(id, group);
         else sendText(id, "There is no telegram group for this course yet. you can open and add a groupby using 'Add group'")
+        break;
+      case "Teams group \ud83d\udc6a":
+        sendText(id, "Looking for Teams group \ud83d\udc6a" + groupSy);
+        if (teams) sendText(id, teams);
+        else sendText(id, "There is no Teams group \ud83d\udc6a for this course yet. you can open and add a groupby using 'Add group'")
         break;
       case testock:
         sendText(id, "Looking for a link to the test scans " + scansSy);
@@ -579,7 +691,7 @@ function facebookHandler(id, courseNumber, courseName){
 }
 
 function facultyGroupHandler(id, data){
-  var facultyEX = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1FBPyg4vIb42EH0DpUbSIDEFiCcJGfCsmdHXsipyxyQU/edit#gid=0");
+  var facultyEX = SpreadsheetApp.openByUrl("");
   var faculties = facultyEX.getActiveSheet();
   var row = faculties.createTextFinder(data).findNext();
   var i = row.getRow();
@@ -608,6 +720,7 @@ function driveHandler(id, courseNumber, courseName){
       found = true;
       sendText(id, currFolderName);
       sendText(id, subFolder.getUrl());
+      return;
     }
   }
   var scienceItr = folder.getFoldersByName("קורסים מדעיים");
@@ -620,6 +733,7 @@ function driveHandler(id, courseNumber, courseName){
       found = true;
       sendText(id, currFolderName);
       sendText(id, s.getUrl());
+      return;
     }
   }
   var folderItr = dApp.getFoldersByName("Technion CS");
@@ -634,9 +748,36 @@ function driveHandler(id, courseNumber, courseName){
       found = true;
       sendText(id, currFolderName);
       sendText(id, h.getUrl());
+      return;
     }
   }
-  if (found) return;
+  sendText(id, "Searching in Industrial Engineering and Management..");
+  var folderItr = dApp.getFoldersByName("Technion Drive - Public");
+  var folder = folderItr.next();
+  var subFolderItr = folder.getFolders();
+  while (subFolderItr.hasNext()){
+    var subFolder = subFolderItr.next();
+    var currFolderName = subFolder.getName();
+    if (currFolderName.indexOf(courseName) !== -1){
+      found = true;
+      sendText(id, currFolderName);
+      sendText(id, subFolder.getUrl());
+      return;
+    }
+  }
+  sendText(id, "Searching in Electrical Engineering..");
+  var folderItr = dApp.getFoldersByName("הנדסת חשמל טכניון");
+  var folder = folderItr.next();
+  var subFolderItr = folder.getFolders();
+  while (subFolderItr.hasNext()){
+    var subFolder = subFolderItr.next();
+    var currFolderName = subFolder.getName();
+    if (currFolderName.indexOf(courseNumber) !== -1){
+      sendText(id, currFolderName);
+      sendText(id, subFolder.getUrl());
+      return;
+    }
+  }
   sendText(id, "Searching in Mechanical engineering..");
   var folderItr = dApp.getFoldersByName("הנדסת מכונות - דרייב פקולטי");
   var folder = folderItr.next();
@@ -651,10 +792,10 @@ function driveHandler(id, courseNumber, courseName){
         found = true;
         sendText(id, currFolderName);
         sendText(id, subFolder.getUrl());
+        return;
       }
     }
   }
-  if (found) return;
   sendText(id, "Searching in Civil engineering..");
   var folderItr = dApp.getFoldersByName("אזרחית 2014");
   var folder = folderItr.next();
@@ -669,6 +810,39 @@ function driveHandler(id, courseNumber, courseName){
         found = true;
         sendText(id, currFolderName);
         sendText(id, subFolder.getUrl());
+        return;
+      }
+    }
+  }
+  sendText(id, "Searching in Physics..");
+  var folderItr = dApp.getFoldersByName("PhysicsDrive");
+  var folder = folderItr.next();
+  var subFolderItr = folder.getFolders();
+  while (subFolderItr.hasNext()){
+    var subFolder = subFolderItr.next();
+    var currFolderName = subFolder.getName();
+    if (currFolderName.indexOf(courseNumber) !== -1){
+      found = true;
+      sendText(id, currFolderName);
+      sendText(id, subFolder.getUrl());
+      return;
+    }
+  }
+  sendText(id, "Searching in Aerospace Engineering..");
+  var folderItr = dApp.getFoldersByName("טכניון");
+  var folder = folderItr.next();
+  var semestersItr = folder.getFolders();
+  while (semestersItr.hasNext()){
+    var semesters = semestersItr.next();
+    var subFolderItr = semesters.getFolders();
+    while (subFolderItr.hasNext()){
+      var subFolder = subFolderItr.next();
+      var currFolderName = subFolder.getName();
+      if (currFolderName.indexOf(courseName) !== -1){
+        found = true;
+        sendText(id, currFolderName);
+        sendText(id, subFolder.getUrl());
+        return;
       }
     }
   }
@@ -680,6 +854,7 @@ function driveHandler(id, courseNumber, courseName){
     sendText(id, 'Done');
   }
 }
+
 
 
 function courseAdd(id ,courseNumber, courseName, link, courses){
@@ -708,7 +883,7 @@ function courseAdd(id ,courseNumber, courseName, link, courses){
 
 function reviewsHandler(id, i, courses, isAll){
   sendText(id, "Looking for reviews " + reviewsSy);
-  var j = 6;
+  var j = 7;
   while (courses.getRange(i,j).getValue()){
     sendText(id, courses.getRange(i,j).getValue());
     j++;
@@ -720,7 +895,7 @@ function reviewsHandler(id, i, courses, isAll){
 }
 
 function set(id, data, name, num){
-  var app = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1-dDwwSXJZTNGSPZXEI4QVKT2hivW8TE7FXb3A9esKBc/edit?usp=sharing");
+  var app = SpreadsheetApp.openByUrl("");
   var ss = app.getActiveSheet();
   var rows = ss.createTextFinder(id).findAll();
   if (rows.length !== 0){
@@ -820,9 +995,18 @@ var usefulKeyBoard = [
   [{ text: "Technion Students FAQ (doc)" }, { text: "useful links from facebook (doc)" }],
   [{ text: "cheese&fork" }, { text: "scans - cf"}, { text: "testock" }],
   [{ text: "moodle "+moodleSy }, {text: "ug "+ugSy }, { text: calendar}],
-  [{ text: "ASA" }, { text: "אסט" }], 
+  [{ text: "ASA" }, { text: "אסט" }, { text: "Copiers and printers" }], 
   [{ text: mainM }]
 ]
+var printKeyBoard = [
+  [{ text: "A4 B&W single sided" }, { text: "A4 B&W two sided" }],
+  [{ text: "A4 Color single sided" }], 
+  [{ text: "A3 B&W single sided" }, { text: "A3 B&W two sided" }],
+  [{ text: "A3 Color single sided" }], 
+  [{ text: "B&W 2 slides per page, single sided" }, { text: "B&W 2 slides per page, two sided" }],
+  [{ text: "B&W 4 slides per page, single sided" }, { text: "B&W 4 slides per page, two sided" }],   
+  [{ text: mainM }]
+  ]
 
 /*
 var coursesKeyBoardEn = [
@@ -841,8 +1025,9 @@ var coursesKeyBoard = [
   [{ text: "מדעי המחשב" }, { text: 'הנדסת חשמל' }, { text: 'הנדסת מכונות' }],
   [{ text: 'הנדסה אזרחית וסביבתית' }, { text: 'הנדסת תעשייה וניהול' }, { text: 'הנדסה ביו-רפואית' }],
   [{ text: 'הנדסה כימית' },{ text: 'הנדסת ביוטכנולוגיה ומזון' }, { text: 'מדע והנדסה של חומרים' }],
-  [{ text: 'הפקולטה למתמטיקה' }, { text: 'הפקולטה לכימיה' }, { text: 'הפקולטה לפיסיקה' }, {text: 'הפקולטה לביולוגיה'}],
-  [{ text: 'רפואה' }, { text: 'ארכיטקטורה ובינוי ערים' }, { text: 'חינוך למדע וטכנולוגיה' }],
+  [{ text: 'הפקולטה למתמטיקה' }, { text: 'הפקולטה לכימיה' }, { text: 'הפקולטה לפיסיקה' }],
+  [{text: 'הפקולטה לביולוגיה'}, { text: 'רפואה' }, { text: 'ארכיטקטורה ובינוי ערים' }], 
+  [{ text: 'חינוך למדע וטכנולוגיה' }, {text: 'הפקולטה להנדסת אוירונוטיקה וחלל'}],
   [{ text: "תפריט ראשי" }]
 ]
 
@@ -856,7 +1041,7 @@ var allKeyBoard = [
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: testock }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
-  [{ text: "Write a review" }, { text: "Add telegram group" }],
+  [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
   [{ text: "Another course" }],
   [{ text: mainM }]
 ]
@@ -865,6 +1050,16 @@ var gallKeyBoard = [
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: courseGroup }, { text: testock }],
+  [{ text: facebook }, { text: youTube },  { text: reviews }],
+  [{ text: "Write a review" }, { text: "Add Teams link"}],
+  [{ text: "Another course" }],
+  [{ text: mainM }]
+]
+
+var tgallKeyBoard = [
+  [{ text: "Get all" }],
+  [{ text: ug }, { text: moodle }],
+  [{ text: drive }, { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}, { text: testock }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
   [{ text: "Write a review" }],
   [{ text: "Another course" }],
@@ -876,6 +1071,16 @@ var csKeyBoard = [
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: testock }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
+  [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
+  [{ text: "Another course" }],
+  [{ text: mainM }]
+]
+
+var tcsKeyBoard = [
+  [{ text: "Get all" }],
+  [{ text: ug }, { text: moodle }, { text: cs }],
+  [{ text: drive }, { text: 'Teams group \ud83d\udc6a'}, { text: testock }],
+  [{ text: facebook }, { text: youTube },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }],
   [{ text: "Another course" }],
   [{ text: mainM }]
@@ -886,6 +1091,16 @@ var gcsKeyBoard = [
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: courseGroup }, { text: testock }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
+  [{ text: "Write a review" }, { text: "Add Teams link"}],
+  [{ text: "Another course" }],
+  [{ text: mainM }]
+]
+
+var tgcsKeyBoard = [
+  [{ text: "Get all" }],
+  [{ text: ug }, { text: moodle }, { text: cs }],
+  [{ text: drive }, { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}, { text: testock }],
+  [{ text: facebook }, { text: youTube },  { text: reviews }],
   [{ text: "Write a review" }],
   [{ text: "Another course" }],
   [{ text: mainM }]
@@ -895,6 +1110,17 @@ var exelKeyBoard = [
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }],
+  [{ text: testock }, { text: "All tests - exel" }],
+  [{ text: facebook }, { text: youTube },  { text: reviews }],
+  [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
+  [{ text: "Another course" }],
+  [{ text: mainM }]
+]
+
+var texelKeyBoard = [
+  [{ text: "Get all" }],
+  [{ text: ug }, { text: moodle }],
+  [{ text: drive }, { text: 'Teams group \ud83d\udc6a'}],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }],
@@ -908,6 +1134,17 @@ var gexelKeyBoard = [
   [{ text: drive }, { text: courseGroup }],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
+  [{ text: "Write a review" }, { text: "Add Teams link"}],
+  [{ text: "Another course" }],
+  [{ text: mainM }]
+]
+
+var tgexelKeyBoard = [
+  [{ text: "Get all" }],
+  [{ text: ug }, { text: moodle }],
+  [{ text: drive }, { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}],
+  [{ text: testock }, { text: "All tests - exel" }],
+  [{ text: facebook }, { text: youTube },  { text: reviews }],
   [{ text: "Write a review" }],
   [{ text: "Another course" }],
   [{ text: mainM }]
@@ -919,6 +1156,17 @@ var exelCsKeyBoard = [
   [{ text: drive }],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
+  [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
+  [{ text: "Another course" }],
+  [{ text: mainM }]
+]
+
+var texelCsKeyBoard = [
+  [{ text: "Get all" }],
+  [{ text: ug }, { text: moodle }, { text: cs }],
+  [{ text: drive }, { text: 'Teams group \ud83d\udc6a'}],
+  [{ text: testock }, { text: "All tests - exel" }],
+  [{ text: facebook }, { text: youTube },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }],
   [{ text: "Another course" }],
   [{ text: mainM }]
@@ -928,6 +1176,17 @@ var gexelCsKeyBoard = [
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: courseGroup }],
+  [{ text: testock }, { text: "All tests - exel" }],
+  [{ text: facebook }, { text: youTube },  { text: reviews }],
+  [{ text: "Write a review" }, { text: "Add Teams link"}],
+  [{ text: "Another course" }],
+  [{ text: mainM }]
+]
+
+var tgexelCsKeyBoard = [
+  [{ text: "Get all" }],
+  [{ text: ug }, { text: moodle }, { text: cs }],
+  [{ text: drive }, { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
   [{ text: "Write a review" }],
@@ -967,8 +1226,3 @@ var gsportKeyBoard = [
   [{ text: mainM }]
 ]
   
-
-var allBackKeyBoard = [
-  [{ text: "Back"}],
-  [{ text: mainM}]
-]
