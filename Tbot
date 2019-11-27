@@ -179,22 +179,6 @@ function doPost(e){
     else if (text == 'תפריט ראשי' || text == 'Main menu' || text == mainM){
       sendKey(id, "How may I help you?", mainKeyBoard);
       set(id, 0, name, 0);
-    }/*
-    else if (text == 'Up down'){
-      var txt = 'אם גם אתם ממש אוהבים את הקונדומים בטעמי הפירות שלנו, עכשיו תוכלו לקנות 3 אריזות מגוון במחיר מבצע! המארז מכיל 12 קונדומים בטעמים. אלו קונדומים איכותיים, וחזקים במיוחד בריחות מפתים אשר מבוססים על תמציות של פירות אורגניים בלבד. בכל חבילה מתוך ה-3 תמצאו ארבעה קונדומים בטעמים (תות ווניל – שני קונדומים מכל סוג). אלו קונדומים בגודל אולטרה, ברוחב נומינלי של 53 מ"מ'
-      var out = "";
-      var words = txt.split(' ');
-      var out;
-      for (var i = 0; i < words.length; i++){
-        var curr = words[i];
-        var upDown = "";
-        for(var j = curr.length -1; j >= 0; j--){
-          upDown+=curr[j];
-          out+=' '
-        }
-        out+=upDown
-      }
-      sendText(id, out);
     }
     else if(text == "Contact Information \ud83d\udcde"){
       sendKey(id, "Hi! My name is Michael Toker. You are welcome to contact me with any issue..", contactKeyBoard);
