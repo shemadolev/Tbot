@@ -7,3 +7,5 @@ To make it free to use for everyone I used google javascript platforme.
 I published the project on 20 October 2019 and there is already more than 900 users since.
 I hope to develop the bot and to add more feachers.
 You are more that welcome to leave your opinion and feedback.
+
+You can find it on telegram: @Technion_help_bot 
