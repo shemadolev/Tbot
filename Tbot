@@ -17,10 +17,12 @@ var attentionSy = "\ud83d\udc49";
 var downSy = "\ud83d\udc47";
 var YouTubeSy = "\ud83d\udcfa";
 var mainSy = "\ud83c\udfe0";
-
+var Korona = "אסט - עדכונים";
+var help = "כפתור מצוקה" + 	" \ud83d\udd34";
+    
 var ride = "Ride groups (טרמפים) \ud83d\ude97";
 var faculty = "Department groups \ud83c\udfeb";
-var add = "Add course \ud83d\udcd7";
+var add = "Add course to the bot \ud83d\udcd7";
 var course = "Courses \ud83d\udcda";
 var usefulLink = "useful links \ud83d\udd25";
 var feedback = "Feedback \ud83d\udcdd"; 
@@ -41,6 +43,7 @@ var ContactFacebook = "facebook";
 var ContactEmail = "email";
 var ContactLinkdIn = "linkedin";
 
+var fisrtLogInPassword = '2468';
 
 function getMe() {
   var response =  UrlFetchApp.fetch(url + "/getMe");
@@ -117,6 +120,11 @@ function doPost(e){
     var id = contents.callback_query.from.id;
     var data = contents.callback_query.data;
     var name = contents.callback_query.from.first_name;
+    if (name == 'Sina'){
+      sendText(id, "Please contact the developer");
+      sendText(431936474, "Sina is using me! - his id is: " + id);
+      return;
+    }
     if (data == 'Another course'){
       removeKey(id, "Please insert the course number or course name(can be partial name)");
       set(id, "Course", name, 0);
@@ -130,15 +138,8 @@ function doPost(e){
       if (row.length == 1){
         if (row[0]){
           var idRow = row[0].getRow();
-          var currCol = 5;
-          while (currCol <= 26){
-            var currNumber = users.getRange(idRow, currCol).getValue();
-            if (currNumber){
-              users.getRange(idRow, currCol).setValue(0);
-            }
-            else{
-              currCol = 27;
-            }
+          for (var currCol = 5;currCol <=15; currCol++){
+            users.getRange(idRow, currCol).setValue(0);
           }
           sendText(id, "your list is clean");
         }
@@ -171,15 +172,54 @@ function doPost(e){
       var courseName = info[1];
       var courseLink = info[2];
     }
-    if (text == "/start" || text == "hey" || text == 'היי' || text == "hello" || text == 'hi'){
-      sendText(id, "Hi " + name + " \ud83d\udc4b, welcome to Tbot \ud83d\udcd6");
-      sendKey(id, "How may I help you?", mainKeyBoard);
-      set(id, 0, name, 0);
-    }    
-    else if (text == 'תפריט ראשי' || text == 'Main menu' || text == mainM){
-      sendKey(id, "How may I help you?", mainKeyBoard);
-      set(id, 0, name, 0);
+    var app = SpreadsheetApp.openByUrl("");
+    var ss = app.getActiveSheet();
+    var rows = ss.createTextFinder(id).findAll();
+    if (rows.length == 0){
+      sendText(id, "Hi " + name + " \ud83d\udc4b, welcome to Tbot \ud83d\udcd6");   
+      sendText(id, "To get access to the bot Please insert your Technion email address to get the first time log-in password");
+      var next = ss.getRange(2, 4).getValue();
+      ss.getRange(next, 1).setValue(id);
+      ss.getRange(next, 2).setValue("need to be verified");
+      if (name) ss.getRange(next, 3).setValue(name);
+      ss.getRange(2, 4).setValue(++next);
+      return;
+    }else{
+      var row = rows[0].getRow();
+      if (ss.getRange(row, 2).getValue() == "need to be verified"){
+        if (text.includes(fisrtLogInPassword)){
+          set(id, 0, name, 0);
+          sendKey(id, "How may I help you?", mainKeyBoard);
+          sendText(id, "To add a course to your list, simply search for it in the courses, and click 'Add to My List' button");
+        }else if (text.includes("technion.ac.il")){
+          sendText(id, "The passwors is sent to "+ text+ " please insert the password now");
+          // Fetch the email address
+          var emailAddress = text;
+              // Send Alert Email.
+              var message = text; 
+              var subject = 'Tbot first log-in password';
+          MailApp.sendEmail(emailAddress, subject, "The password is: "+fisrtLogInPassword);
+          //TODO sent email
+        }else{
+          sendText(id, "To get access to the bot Please insert your Technion email address to get the first time log-in password");
+        }
+        return;
+      }
     }
+    if (text == "/start" || text == "hey" || text == 'היי' || text == "hello" || text == 'hi'){
+      sendText(id, "Hi " + name + " \ud83d\udc4b, welcome to Tbot \ud83d\udcd6");        
+      sendKey(id, "How may I help you?", mainKeyBoard);
+      sendText(id, "To add a course to your list, simply search for it in the courses, and click 'Add to My List' button");
+      set(id, 0, name, 0);
+    }else if (text == 'תפריט ראשי' || text == 'Main menu' || text == mainM){
+      sendKey(id, "How may I help you?", mainKeyBoard);
+      set(id, 0, name, 0);
+    }/*
+    else if (text == 'Re 404'){
+      sendText( , 'Hi, thank you for your feedback');
+      sendText( ,'You are right, I have not yet added a button that deletes a specific course. In the meantime, you can clear the list and build a new one. Hope to add an option to remove a specific course soon ..');
+      sendText(id, 'Your massage sent');
+    }*/
     else if(text == "Contact Information \ud83d\udcde"){
       sendKey(id, "Hi! My name is Michael Toker. You are welcome to contact me with any issue..", contactKeyBoard);
     }
@@ -293,6 +333,16 @@ function doPost(e){
              || text == moodle || text == testock || text == "Panopto"||  text == "Course info" || text == 'Teams group \ud83d\udc6a'){
       getDone(id, name, text, users, courses);
     }
+    else if (text == Korona){
+      sendText(id, "https://t.me/asat_technion");
+    }
+    else if (text == help){
+      sendText(id, "המטרה של כפתור זה היא לתת גישה מהירה לקבלת סיוע ראשוני לנפגעי אלימות במשפחה. השירות במוקד מיועד לכל אדם ללא הבדל דת, גזע, גיל ומין. המוקד מסייע גם לאלו המעוניינים לדווח בשם אדם אחר: קרוב משפחה, מכר, שכן ועוד" );
+      sendText(id,"מוקד הטלפוני של משרד העבודה, הרווחה והשירותים החברתיים שמספרו 118 , המוקד נותן מענה 24 שעות ביממה, 7 ימים בשבוע, 364  ימים בשנה");
+      sendText(id,"למידע נוסף באתרים הממשלתיים:");
+      sendText(id,"https://www.gov.il/he/Departments/General/molsa-118");
+      sendText(id,"https://www.molsa.gov.il/populations/distress/familyviolence/protectionandfirstaid/Pages/TM_02_02_01.aspx");
+    }
     else if (text == 'Write a review'){
       removeKey(id, "Please write  your review");
       set(id, text);
@@ -300,7 +350,7 @@ function doPost(e){
     else if (text == add){
       set(id, 'Add course');
       removeKey(id, "Please insert the course number, course name and group link in the following format:"
-               + " course number-course name-group link");
+                + " course number-course name-group link. If there is no telegram group, please insert: course number-course name-");
     }
     else if (text == 'Add telegram group'){
       set(id, text);
@@ -315,12 +365,14 @@ function doPost(e){
     else if (text == "scans - cf"){
      sendText(id, "https://tscans.cf/");
     }
+    else if (text == 'MyDegree'){
+      sendText(id, "https://www.mydegree.co.il/");
+    }
     else if (text == 'Technion Students FAQ (doc)'){
-      sendText(id,"https://docs.google.com/document/d/1XGWWns6IZy9QpsAhWZu_WxIQTXYbRVeAV3XGr6pcMpc/edit?fbclid=IwAR1bBn5g3NBdxf2JFPbeWinOmQ3F0qa2KxlQGlMZ5wPyr31l0yRfo7ESPLc");
+      sendText(id,"");
     }
     else if (text == 'useful links from facebook (doc)'){
-      sendText(id,"https://docs.google.com/document/d/1tR8X8YawbK_h2VwQU1k1Fz4q12B0nWxOMSqxE_hV2sw/"+
-               "edit?fbclid=IwAR1cQkxt1PG-gFwF_QWPG80u9ZNYuVwwBlWwmCes5MLst1ERmAIGijH8BRM");
+      sendText(id,"");
     }
     else if (text == 'cheese&fork'){
       sendKey(id,"https://cheesefork.cf/",usefulKeyBoard);
@@ -343,7 +395,7 @@ function doPost(e){
     else if (text == 'ניב סקרביאנסקי'){
       sendKey(id, 'https://drive.google.com/file/d/11-zadZjM-0qDwc0qrWXHVygLN7aKkqna/view?usp=drivesdk', mainKeyBoard) ;
     }
-    else if (text == "Add to my course list"){
+    else if (text == "Add to my course list \ud83d\udccd"){
       var added = false;
       var row = users.createTextFinder(id).findAll();
       if (row.length == 1){
@@ -375,6 +427,7 @@ function doPost(e){
     else if(text == "My courses \ud83d\udccc"){
       var row = users.createTextFinder(id).findAll();
       if (row.length == 1){
+        sendText(id, "Loading your courses..")
         if (row[0]){
           var idRow = row[0].getRow();
           var currCol = 5;
@@ -410,15 +463,8 @@ function doPost(e){
       if (row.length == 1){
         if (row[0]){
           var idRow = row[0].getRow();
-          var currCol = 5;
-          while (currCol <= 26){
-            var currNumber = users.getRange(idRow, currCol).getValue();
-            if (currNumber){
-              users.getRange(idRow, currCol).setValue(0);
-            }
-            else{
-              currCol = 27;
-            }
+          for (var currCol = 5;currCol <=15; currCol++){
+            users.getRange(idRow, currCol).setValue(0);
           }
           sendText(id, "your list is clean");
         }
@@ -445,7 +491,7 @@ function doPost(e){
               sendKey(id, "What would you like to do next?", mainKeyBoard);
           }
           else if (mode == 'Ride'){
-            var RidesEX = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1FBPyg4vIb42EH0DpUbSIDEFiCcJGfCsmdHXsipyxyQU/edit#gid=0");
+            var RidesEX = SpreadsheetApp.openByUrl("");
             var Rides = RidesEX.getActiveSheet();
             var list = Rides.createTextFinder(text).findAll()
             if (list.length > 0){
@@ -856,7 +902,7 @@ function facebookHandler(id, courseNumber, courseName){
 }
 
 function facultyGroupHandler(id, data){
-  var facultyEX = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1FBPyg4vIb42EH0DpUbSIDEFiCcJGfCsmdHXsipyxyQU/edit#gid=0");
+  var facultyEX = SpreadsheetApp.openByUrl("");
   var faculties = facultyEX.getActiveSheet();
   var row = faculties.createTextFinder(data).findNext();
   var i = row.getRow();
@@ -1067,7 +1113,7 @@ function reviewsHandler(id, i, courses, isAll){
 }
 
 function set(id, data, name, num){
-  var app = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1-dDwwSXJZTNGSPZXEI4QVKT2hivW8TE7FXb3A9esKBc/edit?usp=sharing");
+  var app = SpreadsheetApp.openByUrl("");
   var ss = app.getActiveSheet();
   var rows = ss.createTextFinder(id).findAll();
   if (rows.length !== 0){
@@ -1112,7 +1158,8 @@ function makeKeyBoard(id, names, numbers){
 var mainKeyBoard = [
   [{text: course }, { text: "My courses \ud83d\udccc" }],
   [{ text: ride}, { text: usefulLink}, { text: faculty }],
-  [{ text: feedback }, { text: add }],
+  [{ text: feedback}, { text: add }],
+  [{ text: Korona }, { text: help }],
   [{ text: "Contact Information \ud83d\udcde"}]
 ]
 
@@ -1133,7 +1180,6 @@ var teKeyBoard = [
   [{ text: "בת ים" }, { text: "גבעתיים" }, { text: "בני ברק" }],
   [{ text: "רמת גן" }, { text: "פתח תקוה" }, { text: "אלעד" }],
   [{ text: "אריאל" }, { text: "ראש העין" }, { text: "ראשון לציון" }],
-  [{ text: "רמת גן" }, { text: "פתח תקוה" }, { text: "אלעד" }],
   [{ text:"רשימת אזורים"}],
   [{ text: "תפריט ראשי" }]
 ]
@@ -1169,6 +1215,7 @@ var usefulKeyBoard = [
   [{ text: "cheese&fork" }, { text: "scans - cf"}, { text: "testock" }],
   [{ text: "moodle "+moodleSy }, {text: "ug "+ugSy }, { text: calendar}],
   [{ text: "ASA" }, { text: "אסט" }, { text: "Copiers and printers" }], 
+  [{text: "MyDegree"}],
   [{ text: mainM }]
 ]
 var printKeyBoard = [
@@ -1210,187 +1257,187 @@ var ridesBackKeyBoard = [
 ]
 
 var allKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: testock }],
   [{ text: facebook }, { text: youTube },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var gallKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: courseGroup }, { text: testock }],
   [{ text: facebook }, { text: youTube }, { text: 'Panopto' }, { text: reviews }],
   [{ text: "Write a review" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var tgallKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}, { text: testock }],
   [{ text: facebook }, { text: youTube },  { text: 'Panopto' }, { text: reviews }],
   [{ text: "Write a review" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 
 var tallKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: 'Teams group \ud83d\udc6a'}, { text: testock }],
   [{ text: facebook }, { text: youTube },{ text: 'Panopto' },   { text: reviews }],
   [{ text: "Write a review" },  { text: "Add telegram group" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var csKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: testock }],
   [{ text: facebook }, { text: youTube },{ text: 'Panopto' },   { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var tcsKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: 'Teams group \ud83d\udc6a'}, { text: testock }],
   [{ text: facebook }, { text: youTube },{ text: 'Panopto' },   { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var gcsKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: courseGroup }, { text: testock }],
   [{ text: facebook }, { text: youTube }, { text: 'Panopto' },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var tgcsKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}, { text: testock }],
   [{ text: facebook }, { text: youTube },{ text: 'Panopto' },   { text: reviews }],
   [{ text: "Write a review" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var exelKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube },{ text: 'Panopto' },   { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var texelKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: 'Teams group \ud83d\udc6a'}],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube }, { text: 'Panopto' },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var gexelKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: courseGroup }],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube }, { text: 'Panopto' },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var tgexelKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }],
   [{ text: drive }, { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube }, { text: 'Panopto' },  { text: reviews }],
   [{ text: "Write a review" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var exelCsKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube }, { text: 'Panopto' },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var texelCsKeyBoard = [
-  [{ text: "Get all" }],
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
+  [{ text: "Get all" }], 
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: 'Teams group \ud83d\udc6a'}],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube }, { text: 'Panopto' },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var gexelCsKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: courseGroup }],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube }, { text: 'Panopto' },  { text: reviews }],
   [{ text: "Write a review" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var tgexelCsKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: "Get all" }],
   [{ text: ug }, { text: moodle }, { text: cs }],
   [{ text: drive }, { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}],
   [{ text: testock }, { text: "All tests - exel" }],
   [{ text: facebook }, { text: youTube },{ text: 'Panopto' },   { text: reviews }],
   [{ text: "Write a review" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var malagKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: ug }, { text: moodle }],
   [{ text: facebook }, { text: reviews }],
   [{ text: "Write a review" }, { text: "Add telegram group" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
 var gmalagKeyBoard = [
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: ug }, { text: moodle }],
   [ { text: courseGroup }, { text: facebook }, { text: reviews }],
   [{ text: "Write a review" }, { text: "Add Teams link"}],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
@@ -1398,7 +1445,7 @@ var tmalagKeyBoard = [
   [{ text: ug }, { text: moodle }],
   [ { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}, { text: facebook }, { text: reviews }],
   [{ text: "Write a review" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
@@ -1406,7 +1453,7 @@ var tgmalagKeyBoard = [
   [{ text: ug }, { text: moodle }],
   [ { text: courseGroup }, { text: 'Teams group \ud83d\udc6a'}, { text: facebook }, { text: reviews }],
   [{ text: "Write a review" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
@@ -1414,7 +1461,7 @@ var sportKeyBoard = [
   [{ text: reviews }],
   [{ text: "Course info"}],
   [{ text: "Write a review" }, { text: "Add telegram group" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
 
@@ -1422,7 +1469,7 @@ var gsportKeyBoard = [
   [{ text: courseGroup }, { text: reviews }],
   [{ text: "Course info"}],
   [{ text: "Write a review" }],
-  [{ text: "Add to my course list" }, { text: "My courses \ud83d\udccc"}],
+  [{ text: "Add to my course list \ud83d\udccd" }, { text: "My courses \ud83d\udccc"}],
   [{ text: mainM }, { text: "Another course" }]
 ]
   
@@ -1432,3 +1479,37 @@ var contactKeyBoard = [
   [{ text: ContactLinkdIn} ],
   [{ text: mainM }]
 ]
+/*
+    else if (text == 'addEx'){
+      var tempEX = SpreadsheetApp.openByUrl("");
+      var temp = tempEX.getActiveSheet();
+      var i = 3401;
+      var courseNumber = temp.getRange(i, 4).getValue();
+      sendText(id, courseNumber);
+      while (i <= 4156){
+        courseNumber = temp.getRange(i, 4).getValue();
+        i++;
+        var courseName = temp.getRange(i, 4).getValue();
+        i+=3;
+        courseAdd(id, courseNumber, courseName, 0, courses);
+      }
+      }
+    else if (text == 'sortM'){
+      var tempEX = SpreadsheetApp.openByUrl("");
+      var temp = tempEX.getActiveSheet();
+      var i = 4163;
+      var courseNumber = temp.getRange(i, 4).getValue();
+      while (i <= 4205){
+        var list = courses.createTextFinder(courseNumber).findAll();
+        if (list.length < 1){
+          sendText(id, courseNumber);
+        }
+        else{
+          var row = list[0].getRow();
+          if (courses.getRange(row, 5).getValue() !== 1){
+            sendText(id, courseNumber);
+            courses.getRange(row, 5).setValue(1);
+          }
+        }
+      }
+    }*/
