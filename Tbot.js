@@ -1,4 +1,3 @@
-///vertion 2
 // This is a bot that was developed for the use of Technion students.
 // The bot was developed by Michael Toker for the purpose to help students and has no profit.
 // The bot is running on the google script platform and using google sheets to store the information to operate.
