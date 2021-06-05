@@ -140,6 +140,48 @@ function doGet(e) {
   return HtmlService.createHtmlOutput("Hello " + JSON.stringify(e));
 }
 
+let openedSS = {};
+
+function getBusinessExcel() {
+  //Get data, if not cached yet
+  if (!openedSS.busi) {
+    const app = SpreadsheetApp.openByUrl(businessExel);
+    openedSS.busi = {
+      busi: app.getSheetByName('info'),
+      maxCol: busi.getRange(2, 2).getValue(),
+      maxRow: busi.getRange(3, 2).getValue(),
+      topicBase: busi.getRange(4, 2).getValue(),
+      sectionBase: busi.getRange(5, 2).getValue(),
+      sectionsNum: busi.getRange(6, 2).getValue(),
+      topicNum: busi.getRange(7, 2).getValue(),
+    };
+  }
+  return openedSS.busi;
+}
+
+function getHelperListExcel() {
+  //Get data, if not cached yet
+  if (!openedSS.helperList) {
+    const app = SpreadsheetApp.openByUrl(helpList);
+    openedSS.helperList = {
+      helpers: app.getSheetByName('helper'),
+      needsHelp: app.getSheetByName('needHelp'),
+    };
+  }
+  return openedSS.helperList;
+}
+
+function getFacultyRidesExcel() {
+  //Get data, if not cached yet
+  if (!openedSS.facultyRides) {
+    const app = SpreadsheetApp.openByUrl(facultyRidesExel);
+    openedSS.facultyRides = {
+      Rides: app.getActiveSheet(),
+    };
+  }
+  return openedSS.facultyRides;
+}
+
 //doPost(e)
 //Description: main function. Execution of the requests.
 //input: JSON. It may contain callback_query - input from external keyboard,
@@ -153,7 +195,7 @@ function doPost(e) {
 
   //internal keyboard command
   if (contents.callback_query) {
-    
+
     const id = contents.callback_query.from.id;
     const data = contents.callback_query.data;
     const name = contents.callback_query.from.first_name;
@@ -193,20 +235,16 @@ function doPost(e) {
     while (cell !== null && cell.getColumn() !== 1) cell = cellFinder.findNext();
     let mode = 0;
     let otherMode = 0;
-    let otherMode2 = 0;
     if (cell) {
       let row = cell.getRow();
       mode = users.getRange(row, 2).getValue();
       otherMode = users.getRange(row, 4).getValue();
-      otherMode2 = users.getRange(row, 3).getValue();
     } else {
       sendKey(id, "How may I help you?", mainKeyBoard);
     }
     //course have been chosen
     if (mode == "Delete A Course From My List") {//course to delete
-      let flag = false;
       let courseCol = 0;
-      let lastInCol;
       let index = 5;
       let currCourseRow = users.getRange(row, index).getValue();
       let currCourse;
@@ -225,15 +263,8 @@ function doPost(e) {
       set(id, 0, name, 0);
       sendText(id, "Course number " + data + " is not on your list anymore");
     } else if (mode == SFS) {//students fo students
-      let app = SpreadsheetApp.openByUrl(businessExel);
-      let busi = app.getSheetByName('info');
+      let {busi, maxCol, maxRow, topicBase, sectionBase, sectionsNum} = getBusinessExcel();
 
-      let maxCol = busi.getRange(2, 2).getValue();
-      let maxRow = busi.getRange(3, 2).getValue();
-      let topicBase = busi.getRange(4, 2).getValue();
-      let sectionBase = busi.getRange(5, 2).getValue();
-      let sectionsNum = busi.getRange(6, 2).getValue();
-      let topicNum = busi.getRange(7, 2).getValue();
       if (data == "Add a Topic \ud83c\udfea") {
         set(id, mode, 0, data);
         sendText(id, "We glad that you decided to join us! Please insert the topic");
@@ -523,9 +554,8 @@ function doPost(e) {
 //      sendText(id, "היי, ראיתי שניסית לדבר עם מישהו ולא היה לי עם מי לחבר אותך. כעת יש סטודנט פנוי שישמח לדבר איתך. אם אתה עדיין מעוניין לדבר תשלח חזרה את המילה כן");
 //      sendText(id, "done")
     } else if (text == WantToTalk || (text == 'כן' && id == '810039866')) { //set an anonymous talk //id wanted to talk
-      let app = SpreadsheetApp.openByUrl(helpList);
-      let helpers = app.getSheetByName('helper');
-      let needsHelp = app.getSheetByName('needHelp');
+      const {helpers} = getHelperListExcel();
+
       let helperCol = 2;
       sendText(id, "Searching for an helper for you.. You can always change your preference for an helper and i'll try to find" +
         " the best one for you.. ");
@@ -562,9 +592,7 @@ function doPost(e) {
         return;
       }
     } else if (text == "Settings and Preference") {
-      let app = SpreadsheetApp.openByUrl(helpList);
-      let helpers = app.getSheetByName('helper');
-      let needsHelp = app.getSheetByName('needHelp');
+      const {needsHelp} = getHelperListExcel();
       let cellFinder = needsHelp.createTextFinder(id);
       let needsHelpCell = cellFinder.findNext();
       while (needsHelpCell !== null && needsHelpCell.getColumn() !== 1) {
@@ -590,15 +618,7 @@ function doPost(e) {
       sendKey(id, "Choose the settings you are willing to change", settingsKeyBoard);
     } else if (text == SFS) {
       sendText(id, "Students for Students is a project designed to encourage students to support other students businesses");
-      let app = SpreadsheetApp.openByUrl(businessExel);
-      let busi = app.getSheetByName('info');
-
-      let maxCol = busi.getRange(2, 2).getValue();
-      let maxRow = busi.getRange(3, 2).getValue();
-      let topicBase = busi.getRange(4, 2).getValue();
-      let sectionBase = busi.getRange(5, 2).getValue();
-      let sectionsNum = busi.getRange(6, 2).getValue();
-      //let topicNum = busi.getRange(7, 2).getValue();
+      let {busi, maxCol, maxRow, topicBase, sectionBase, sectionsNum} = getBusinessExcel();
 
       let courseList = [];
       let numberList = [];
@@ -648,8 +668,8 @@ function doPost(e) {
       set(id, 0, name, 0);
       sendKey(id, "What would you like to do next?", mainKeyBoard);
     } else if (mode == 'Ride') {
-      let RidesEX = SpreadsheetApp.openByUrl(facultyRidesExel);
-      let Rides = RidesEX.getActiveSheet();
+
+      let {Rides} = getFacultyRidesExcel();
       let list = Rides.createTextFinder(text).findAll();
       if (list.length > 0) {
         let row = list[0].getRow();
@@ -805,9 +825,7 @@ function doPost(e) {
         return;
       }
       //getData
-      let app = SpreadsheetApp.openByUrl(helpList);
-      let helpers = app.getSheetByName('helper');
-      let needsHelp = app.getSheetByName('needHelp');
+      const {helpers, needsHelp} = getHelperListExcel();
       let rowFinder = needsHelp.createTextFinder(id);
       let currID = rowFinder.findNext();
       let row;
@@ -926,15 +944,7 @@ function doPost(e) {
       //      }
       //      sendText(id, "Course number " + text + " is not on your list anymore");
     } else if (mode == SFS) {
-      let app = SpreadsheetApp.openByUrl(businessExel);
-      let busi = app.getSheetByName('info');
-
-      let maxCol = busi.getRange(2, 2).getValue();
-      let maxRow = busi.getRange(3, 2).getValue();
-      let topicBase = busi.getRange(4, 2).getValue();
-      let sectionBase = busi.getRange(5, 2).getValue();
-      let sectionsNum = busi.getRange(6, 2).getValue();
-      let topicNum = busi.getRange(7, 2).getValue();
+      let {busi, maxCol, maxRow, topicBase, sectionBase, sectionsNum, topicNum} = getBusinessExcel();
 
       let currBusi = busi.createTextFinder(otherMode).findNext();
       if (currBusi) {
@@ -1087,15 +1097,8 @@ function doPost(e) {
         }
       }
     } else if (mode == "GoodPass") {//helper function of STS: edit business // (id, GoodPass, busi name, information to change)
-      let app = SpreadsheetApp.openByUrl(businessExel);
-      let busi = app.getSheetByName('info');
+      let {busi, maxCol, maxRow, topicBase, sectionBase, sectionsNum, topicNum} = getBusinessExcel();
 
-      let maxCol = busi.getRange(2, 2).getValue();
-      let maxRow = busi.getRange(3, 2).getValue();
-      let topicBase = busi.getRange(4, 2).getValue();
-      let sectionBase = busi.getRange(5, 2).getValue();
-      let sectionsNum = busi.getRange(6, 2).getValue();
-      let topicNum = busi.getRange(7, 2).getValue();
       let currBusi = busi.createTextFinder(otherMode2).findNext();
       let busiRow = currBusi.getRow();
       let busiCol = currBusi.getColumn();
@@ -1114,9 +1117,7 @@ function doPost(e) {
 
 
 function findHelper(id) {
-  let app = SpreadsheetApp.openByUrl(helpList);
-  let helpers = app.getSheetByName('helper');
-  let needsHelp = app.getSheetByName('needHelp');
+  const {helpers, needsHelp} = getHelperListExcel();
   let cellFinder = needsHelp.createTextFinder(id);
   let cell = cellFinder.findNext();
   while (cell !== null && cell.getColumn() !== 1) {
@@ -1778,7 +1779,7 @@ function set(id, data, name, num) {
   }
 }
 
-//functions that runs once a day and updates the courses acording to ug updates
+//functions that runs once a day and updates the courses according to ug updates
 function getCourses() {
   let urlCourses = "https://raw.githubusercontent.com/michael-maltsev/cheese-fork/gh-pages/courses/courses_";
   let year = "2020";
