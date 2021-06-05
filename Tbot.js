@@ -6,75 +6,75 @@
 
 
 //Macros
-var TESTMODE = false;
+const TESTMODE = false;
 
 //Global variables
-var token = "";
-var url = "https://api.telegram.org/bot" + token;
-var webAppUrl = "";
-var numberOfCourses = 1400;
+const token = "";
+const url = "https://api.telegram.org/bot" + token;
+const webAppUrl = "";
+const numberOfCourses = 1400;
 
 //Exel
-var helpList = "";
-var userExel = "";
-var courseExel = "";
-var facultyRidesExel = "";
-var businessExel = "";
+const helpList = "";
+const userExel = "";
+const courseExel = "";
+const facultyRidesExel = "";
+const businessExel = "";
 
 
 //Symbols
-var groupSy = "\ud83d\udc6b";
-var driveSy = "\ud83d\udcc1";
-var csSy = "\ud83d\udcbb";
-var ugSy = "\ud83d\udcca";
-var moodleSy = "\ud83d\udccb";
-var reviewsSy = "\ud83d\udcad";
-var facebookSy = "\ud83d\udc65";
-var scansSy = "\ud83d\udcda";
-var attentionSy = "\ud83d\udc49";
-var downSy = "\ud83d\udc47";
-var YouTubeSy = "\ud83d\udcfa";
-var mainSy = "\ud83c\udfe0";
-var Corona = "אסט - עדכונים";
-var help = "Talk To Me" + " \ud83d\udd34";
-var About = "About " + "\ud83c\udf0e";
-var WantToHelp = "I want to help";
+const groupSy = "\ud83d\udc6b";
+const driveSy = "\ud83d\udcc1";
+const csSy = "\ud83d\udcbb";
+const ugSy = "\ud83d\udcca";
+const moodleSy = "\ud83d\udccb";
+const reviewsSy = "\ud83d\udcad";
+const facebookSy = "\ud83d\udc65";
+const scansSy = "\ud83d\udcda";
+const attentionSy = "\ud83d\udc49";
+const downSy = "\ud83d\udc47";
+const YouTubeSy = "\ud83d\udcfa";
+const mainSy = "\ud83c\udfe0";
+const Corona = "אסט - עדכונים";
+const help = "Talk To Me" + " \ud83d\udd34";
+const About = "About " + "\ud83c\udf0e";
+const WantToHelp = "I want to help";
 
-var ride = "Ride Groups \ud83d\ude97";
-var faculty = "Department Groups \ud83c\udfeb";
-var add = "Add course to the bot \ud83d\udcd7";
-var course = "Courses \ud83d\udcda";
-var usefulLink = "Useful Links \ud83d\udd25";
-var feedback = "feedback \ud83d\udcdd";
-var calendar = "Calendar \ud83d\udcc5";
+const ride = "Ride Groups \ud83d\ude97";
+const faculty = "Department Groups \ud83c\udfeb";
+const add = "Add course to the bot \ud83d\udcd7";
+const course = "Courses \ud83d\udcda";
+const usefulLink = "Useful Links \ud83d\udd25";
+const feedback = "feedback \ud83d\udcdd";
+const calendar = "Calendar \ud83d\udcc5";
 
-var drive = "Drive " + driveSy;
-var courseGroup = "Telegram group " + groupSy;
-var testock = "Scans - testock " + scansSy;
-var facebook = "Facebook " + facebookSy;
-var youTube = "YouTube " + YouTubeSy;
-var reviews = "Reviews " + reviewsSy;
-var mainMenu = "Main Menu " + mainSy;
-var ug = "Ug " + ugSy;
-var moodle = "Moodle " + moodleSy;
-var cs = "CS " + csSy;
+const drive = "Drive " + driveSy;
+const courseGroup = "Telegram group " + groupSy;
+const testock = "Scans - testock " + scansSy;
+const facebook = "Facebook " + facebookSy;
+const youTube = "YouTube " + YouTubeSy;
+const reviews = "Reviews " + reviewsSy;
+const mainMenu = "Main Menu " + mainSy;
+const ug = "Ug " + ugSy;
+const moodle = "Moodle " + moodleSy;
+const cs = "CS " + csSy;
 
-var ContactFacebook = "facebook";
-var ContactEmail = "email";
-var ContactLinkedIn = "linkedin";
+const ContactFacebook = "facebook";
+const ContactEmail = "email";
+const ContactLinkedIn = "linkedin";
 
-var WantToTalk = "Anonymous talk with a student";
-var SFS = "Students Business " + "\ud83d\udcb8";
+const WantToTalk = "Anonymous talk with a student";
+const SFS = "Students Business " + "\ud83d\udcb8";
 
 
 //functions that handles the fetching of the commands from the users
 function getMe() {
-  var response = UrlFetchApp.fetch(url + "/getMe");
+  const response = UrlFetchApp.fetch(url + "/getMe");
   Logger.log(response.getContentText());
 }
 
 function getUpdates() {
-  var response = UrlFetchApp.fetch(url + "/getUpdates");
+  const response = UrlFetchApp.fetch(url + "/getUpdates");
   Logger.log(response.getContentText());
 }
 
@@ -82,7 +82,7 @@ function getUpdates() {
 //Description: sends text to chatId with external keyboard (optional).
 //input: chat id, string and the name of the external keyboard (optional).
 function sendText(chatId, text, keyBoard) {
-  var data = {
+  const data = {
     method: "post",
     payload: {
       method: "sendMessage",
@@ -101,7 +101,7 @@ function sendText(chatId, text, keyBoard) {
 //Description: sends text to chatId with internal keyboard(optional).
 //input: chat id, string and the name of the internal keyboard(optional).
 function sendKey(chatId, text, keyBoard) {
-  var data = {
+  const data = {
     method: "post",
     payload: {
       method: "sendMessage",
@@ -117,7 +117,7 @@ function sendKey(chatId, text, keyBoard) {
 }
 
 function removeKey(chatId, text) {
-  var data = {
+  const data = {
     method: "post",
     payload: {
       method: "sendMessage",
@@ -132,7 +132,7 @@ function removeKey(chatId, text) {
 }
 
 function setWebhook() {
-  var response = UrlFetchApp.fetch(url + "/setWebhook?url=" + webAppUrl);
+  const response = UrlFetchApp.fetch(url + "/setWebhook?url=" + webAppUrl);
   Logger.log(response.getContentText());
 }
 
@@ -145,17 +145,18 @@ function doGet(e) {
 //input: JSON. It may contain callback_query - input from external keyboard,
 //or message - input from text sent from the user or internal keyboard.
 function doPost(e) {
-  var userEx = SpreadsheetApp.openByUrl(userExel);
-  var users = userEx.getActiveSheet();
-  var coursesEX = SpreadsheetApp.openByUrl(courseExel);
-  var courses = coursesEX.getActiveSheet();
-  var contents = JSON.parse(e.postData.contents);
+  const userEx = SpreadsheetApp.openByUrl(userExel);
+  const users = userEx.getActiveSheet();
+  const coursesEX = SpreadsheetApp.openByUrl(courseExel);
+  const courses = coursesEX.getActiveSheet();
+  const contents = JSON.parse(e.postData.contents);
 
   //internal keyboard command
   if (contents.callback_query) {
-    var id = contents.callback_query.from.id;
-    var data = contents.callback_query.data;
-    var name = contents.callback_query.from.first_name;
+    
+    const id = contents.callback_query.from.id;
+    const data = contents.callback_query.data;
+    const name = contents.callback_query.from.first_name;
 
     if (data == 'Search For Another Course') {
       removeKey(id, "Please insert the course number or course name (can be partial name)"
@@ -167,14 +168,14 @@ function doPost(e) {
       set(id, 0, name, 0);
       return;
     } else if (data == "Clean My List") {
-      var cellFinder = users.createTextFinder(id);
-      var cell = cellFinder.findNext();
+      const cellFinder = users.createTextFinder(id);
+      let cell = cellFinder.findNext();
       while (cell !== null && cell.getColumn() !== 1) {
         cell = cellFinder.findNext();
       }
       if (cell) {
-        var idRow = cell.getRow();
-        for (var currCol = 5; currCol <= 15; currCol++) {
+        let idRow = cell.getRow();
+        for (let currCol = 5; currCol <= 15; currCol++) {
           users.getRange(idRow, currCol).setValue(0);
         }
         sendText(id, "Your list is clean");
@@ -187,14 +188,14 @@ function doPost(e) {
       return;
     }
     //get mode
-    var cellFinder = users.createTextFinder(id);
-    var cell = cellFinder.findNext();
+    let cellFinder = users.createTextFinder(id);
+    let cell = cellFinder.findNext();
     while (cell !== null && cell.getColumn() !== 1) cell = cellFinder.findNext();
-    var mode = 0;
-    var otherMode = 0;
-    var otherMode2 = 0;
+    let mode = 0;
+    let otherMode = 0;
+    let otherMode2 = 0;
     if (cell) {
-      var row = cell.getRow();
+      let row = cell.getRow();
       mode = users.getRange(row, 2).getValue();
       otherMode = users.getRange(row, 4).getValue();
       otherMode2 = users.getRange(row, 3).getValue();
@@ -203,12 +204,12 @@ function doPost(e) {
     }
     //course have been chosen
     if (mode == "Delete A Course From My List") {//course to delete
-      var flag = false;
-      var courseCol = 0;
-      var lastInCol;
-      var index = 5;
-      var currCourseRow = users.getRange(row, index).getValue();
-      var currCourse;
+      let flag = false;
+      let courseCol = 0;
+      let lastInCol;
+      let index = 5;
+      let currCourseRow = users.getRange(row, index).getValue();
+      let currCourse;
 
       while (currCourseRow) {//while there is courses in the list
         currCourse = courses.getRange(currCourseRow, 1).getValue();
@@ -217,22 +218,22 @@ function doPost(e) {
       }
 
       if (courseCol) {//swap with last and delete
-        var lastCourse = users.getRange(row, index - 1).getValue();
+        let lastCourse = users.getRange(row, index - 1).getValue();
         users.getRange(row, courseCol).setValue(lastCourse);
         users.getRange(row, index - 1).setValue(0);
       }
       set(id, 0, name, 0);
       sendText(id, "Course number " + data + " is not on your list anymore");
     } else if (mode == SFS) {//students fo students
-      var app = SpreadsheetApp.openByUrl(businessExel);
-      var busi = app.getSheetByName('info');
+      let app = SpreadsheetApp.openByUrl(businessExel);
+      let busi = app.getSheetByName('info');
 
-      var maxCol = busi.getRange(2, 2).getValue();
-      var maxRow = busi.getRange(3, 2).getValue();
-      var topicBase = busi.getRange(4, 2).getValue();
-      var sectionBase = busi.getRange(5, 2).getValue();
-      var sectionsNum = busi.getRange(6, 2).getValue();
-      var topicNum = busi.getRange(7, 2).getValue();
+      let maxCol = busi.getRange(2, 2).getValue();
+      let maxRow = busi.getRange(3, 2).getValue();
+      let topicBase = busi.getRange(4, 2).getValue();
+      let sectionBase = busi.getRange(5, 2).getValue();
+      let sectionsNum = busi.getRange(6, 2).getValue();
+      let topicNum = busi.getRange(7, 2).getValue();
       if (data == "Add a Topic \ud83c\udfea") {
         set(id, mode, 0, data);
         sendText(id, "We glad that you decided to join us! Please insert the topic");
@@ -256,10 +257,10 @@ function doPost(e) {
         sendText(id, "In order to continue please provide your password");
         set(id, SFS, data, "PassToEdit");
       } else if (data == SFS) {
-        var courseList = [];
-        var numberList = [];
-        for (var i = sectionBase + 1; i < sectionBase * sectionsNum; i += sectionBase) {
-          var currTopic = busi.getRange(1, i).getValue();
+        let courseList = [];
+        let numberList = [];
+        for (let i = sectionBase + 1; i < sectionBase * sectionsNum; i += sectionBase) {
+          let currTopic = busi.getRange(1, i).getValue();
           //sendText(id, "test: currTopic: "+currTopic); 
           numberList.push(currTopic);
           courseList.push(currTopic);
@@ -269,21 +270,21 @@ function doPost(e) {
         makeKeyBoard(id, courseList, numberList);
         set(id, SFS, name, "Wait");
       } else {
-        var currBusi = busi.createTextFinder(data).findNext();
+        let currBusi = busi.createTextFinder(data).findNext();
         if (currBusi) {
-          var busiCol = currBusi.getColumn();
-          var busiRow = currBusi.getRow();
+          let busiCol = currBusi.getColumn();
+          let busiRow = currBusi.getRow();
         }
       }
       if (currBusi && busiRow == 1) {//Show all business in the topic
-        var courseList = [];
-        var numberList = [];
-        var topiCol = busi.createTextFinder(data).findNext().getColumn();
-        var counter = busi.getRange(2, topiCol - 1).getValue();
+        let courseList = [];
+        let numberList = [];
+        let topiCol = busi.createTextFinder(data).findNext().getColumn();
+        let counter = busi.getRange(2, topiCol - 1).getValue();
         if (counter == 0) sendText(id, "There is no business here yet. Tap on 'Add a Business' in order to add your business to the list.")
 
-        for (var i = topicBase + 1; i < topicBase + counter + 1; ++i) {
-          var currBusi = busi.getRange(i, topiCol).getValue();
+        for (let i = topicBase + 1; i < topicBase + counter + 1; ++i) {
+          let currBusi = busi.getRange(i, topiCol).getValue();
           numberList.push(currBusi);
           courseList.push(currBusi);
         }
@@ -299,13 +300,13 @@ function doPost(e) {
         set(id, mode, data, data);
       } else if (currBusi) {//Show busiKeyBoard and set topic mode
         set(id, mode, name, data);
-        var description = busi.getRange(busiRow, busiCol + 1).getValue();
+        let description = busi.getRange(busiRow, busiCol + 1).getValue();
         sendKey(id, description, busiKeyBoard);
         return;
       }
     } else {//looking for course options
-      var courseFinder = courses.createTextFinder(data);
-      var currCourse = courseFinder.findNext();
+      let courseFinder = courses.createTextFinder(data);
+      let currCourse = courseFinder.findNext();
       while (currCourse !== null && currCourse.getColumn() !== 1) {
         currCourse = courseFinder.findNext();
       }
@@ -318,43 +319,43 @@ function doPost(e) {
   //external massage command
   else if (contents.message) {
     //Statistics update
-    var current = users.getRange(2, 12).getValue();
+    let current = users.getRange(2, 12).getValue();
     users.getRange(2, 12).setValue(++current);
 
     //Clean text
-    var id = contents.message.from.id;
-    var name = contents.message.from.first_name;
-    var text = contents.message.text;
-    var clean = text.split('"');
+    let id = contents.message.from.id;
+    let name = contents.message.from.first_name;
+    let text = contents.message.text;
+    let clean = text.split('"');
     if (clean.length == 2) {
       text = clean[0] + clean[1];
     }
-    var info = text.split('-');
+    let info = text.split('-');
     if (info.length == 2) {
-      var courseNumber = info[0];
-      var courseReview = info[1];
+      let courseNumber = info[0];
+      let courseReview = info[1];
     }
     if (info.length == 3) {
-      var courseNumber = info[0];
-      var courseName = info[1];
-      var courseLink = info[2];
+      let courseNumber = info[0];
+      let courseName = info[1];
+      let courseLink = info[2];
     }
     ///////////////////////////////////////////////password - not in use for now
     /*
-    var app = SpreadsheetApp.openByUrl(userExel);
-    var ss = app.getActiveSheet();
-    var rows = ss.createTextFinder(id).findAll();
+    let app = SpreadsheetApp.openByUrl(userExel);
+    let ss = app.getActiveSheet();
+    let rows = ss.createTextFinder(id).findAll();
     if (rows.length == 0) {
       sendText(id, "Hi " + name + " \ud83d\udc4b, welcome to Tbot \ud83d\udcd6");
       sendText(id, "To get access to the bot Please insert your Technion email address to get the first time log-in password");
-      var next = ss.getRange(2, 4).getValue();
+      let next = ss.getRange(2, 4).getValue();
       ss.getRange(next, 1).setValue(id);
       ss.getRange(next, 2).setValue("need to be verified");
       if (name) ss.getRange(next, 3).setValue(name);
       ss.getRange(2, 4).setValue(++next);
       return;
     } else {
-      var row = rows[0].getRow();
+      let row = rows[0].getRow();
       if (ss.getRange(row, 2).getValue() == "need to be verified") {
         if (text.includes(firstLogInPassword)) {
           set(id, 0, name, 0);
@@ -363,10 +364,10 @@ function doPost(e) {
         } else if (text.includes("technion.ac.il")) {
           sendText(id, "The passwors is sent to " + text + " please insert the password now");
           // Fetch the email address
-          var emailAddress = text;
+          let emailAddress = text;
           // Send Alert Email.
-          var message = text;
-          var subject = 'Tbot first log-in password';
+          let message = text;
+          let subject = 'Tbot first log-in password';
           MailApp.sendEmail(emailAddress, subject, "The password is: " + firstLogInPassword);
           //TODO sent email
         } else {
@@ -395,19 +396,19 @@ function doPost(e) {
       return;
     }
     //find the user in the table and check his mode
-    var cellFinder = users.createTextFinder(id);
-    var cell = cellFinder.findNext();
+    let cellFinder = users.createTextFinder(id);
+    let cell = cellFinder.findNext();
     while (cell !== null && cell.getColumn() !== 1) cell = cellFinder.findNext();
-    var row = -1;
-    var mode;
-    var otherMode = 0;
-    var otherMode2 = 0;
+    let row = -1;
+    let mode;
+    let otherMode = 0;
+    let otherMode2 = 0;
     if (cell) {
-      var row = cell.getRow();
+      let row = cell.getRow();
       mode = users.getRange(row, 2).getValue();
       otherMode = users.getRange(row, 4).getValue();
       otherMode2 = users.getRange(row, 3).getValue();
-      var date = Utilities.formatDate(new Date(), "GMT+3", "dd/MM/yyyy");
+      let date = Utilities.formatDate(new Date(), "GMT+3", "dd/MM/yyyy");
       users.getRange(row, 5).setValue(date);
     } else {
       set(id, 0, name, 0);
@@ -415,7 +416,7 @@ function doPost(e) {
     }
 
     //if simple test command - sent it and return
-    var isDone = simpleText(id, text);
+    let isDone = simpleText(id, text);
     if (isDone) return;
 
     //Check for other commands
@@ -455,13 +456,13 @@ function doPost(e) {
       set(id, text);
       sendText(id, "Please insert the group link");
     } else if (text == "Add to my course list \ud83d\udccd") {
-      var added = false;
+      let added = false;
       if (row) {
-        var idRow = row;
-        var courseToAdd = users.getRange(idRow, 4).getValue();
-        var currCol = 10;
+        let idRow = row;
+        let courseToAdd = users.getRange(idRow, 4).getValue();
+        let currCol = 10;
         while (currCol <= 26) {
-          var currNumber = users.getRange(idRow, currCol).getValue();
+          let currNumber = users.getRange(idRow, currCol).getValue();
           if (courseToAdd == currNumber) {
             sendText(id, "This course is already in your course list");
             return;
@@ -469,7 +470,7 @@ function doPost(e) {
           if (currNumber) currCol++;
           else {
             (users.getRange(idRow, currCol).setValue(courseToAdd));
-            var currCourseName = courses.getRange(courseToAdd, 2).getValue();
+            let currCourseName = courses.getRange(courseToAdd, 2).getValue();
             sendText(id, currCourseName + " is added to your list")
             added = true;
             currCol = 27;
@@ -481,16 +482,16 @@ function doPost(e) {
       }
     } else if (text == "My Courses \ud83d\udccc") {
       sendText(id, "Loading your Courses..");
-      var idRow = row;
+      let idRow = row;
       if (idRow) {
-        var currCol = 10;
-        var courseList = [];
-        var numberList = [];
+        let currCol = 10;
+        let courseList = [];
+        let numberList = [];
         while (currCol <= 26) {
-          var courseRow = users.getRange(idRow, currCol).getValue();
+          let courseRow = users.getRange(idRow, currCol).getValue();
           if (courseRow) {
-            var courseNumber = courses.getRange(courseRow, 1).getValue();
-            var courseName = courses.getRange(courseRow, 2).getValue();
+            let courseNumber = courses.getRange(courseRow, 1).getValue();
+            let courseName = courses.getRange(courseRow, 2).getValue();
             numberList.push(courseNumber);
             courseList.push(courseName + " - " + courseNumber);
             currCol++;
@@ -512,8 +513,8 @@ function doPost(e) {
         }
       }
     } else if (text == "Clean My List") {
-      var idRow = row;
-      for (var currCol = 5; currCol <= 15; currCol++) {
+      let idRow = row;
+      for (let currCol = 5; currCol <= 15; currCol++) {
         users.getRange(idRow, currCol).setValue(0);
       }
       sendText(id, "your list is clean");
@@ -522,21 +523,21 @@ function doPost(e) {
 //      sendText(id, "היי, ראיתי שניסית לדבר עם מישהו ולא היה לי עם מי לחבר אותך. כעת יש סטודנט פנוי שישמח לדבר איתך. אם אתה עדיין מעוניין לדבר תשלח חזרה את המילה כן");
 //      sendText(id, "done")
     } else if (text == WantToTalk || (text == 'כן' && id == '810039866')) { //set an anonymous talk //id wanted to talk
-      var app = SpreadsheetApp.openByUrl(helpList);
-      var helpers = app.getSheetByName('helper');
-      var needsHelp = app.getSheetByName('needHelp');
-      var helperCol = 2;
+      let app = SpreadsheetApp.openByUrl(helpList);
+      let helpers = app.getSheetByName('helper');
+      let needsHelp = app.getSheetByName('needHelp');
+      let helperCol = 2;
       sendText(id, "Searching for an helper for you.. You can always change your preference for an helper and i'll try to find" +
         " the best one for you.. ");
-      var helperId = findHelper(id);
+      let helperId = findHelper(id);
       if (helperId == 0) {
         sendText(id, "There is no available helper for now, please try again later..");
         return;
       }
       //check if in talk already
-      var isAvail = false;
-      var helperFinder = users.createTextFinder(helperId);
-      var helperCell = helperFinder.findNext();
+      let isAvail = false;
+      let helperFinder = users.createTextFinder(helperId);
+      let helperCell = helperFinder.findNext();
       while (helperCell && helperCell.getColumn() !== 1) {
         helperCell = helperFinder.findNext();
       }
@@ -551,26 +552,26 @@ function doPost(e) {
       if (helperId && isAvail) {
         set(id, "Talk", "", helperId);
         set(helperId, "Talk", "", id);
-        var needsHelpColFinder = helpers.createTextFinder(id);
-        var needsHelpCol = needsHelpColFinder.findNext().getColumn();
+        let needsHelpColFinder = helpers.createTextFinder(id);
+        let needsHelpCol = needsHelpColFinder.findNext().getColumn();
         while (needsHelpCol == 1) needsHelpCol = needsHelpColFinder.findNext().getColumn();
-        var needsHelpNum = helpers.getRange(2, needsHelpCol).getValue();
+        let needsHelpNum = helpers.getRange(2, needsHelpCol).getValue();
         sendText(id, "You are connected with your helper");
         sendText(id, "To end the connection just type 'goodbye' or 'ביי'");
         sendText(helperId, "Student no. " + needsHelpNum + " want's to talk to you. You are connected");
         return;
       }
     } else if (text == "Settings and Preference") {
-      var app = SpreadsheetApp.openByUrl(helpList);
-      var helpers = app.getSheetByName('helper');
-      var needsHelp = app.getSheetByName('needHelp');
-      var cellFinder = needsHelp.createTextFinder(id);
-      var needsHelpCell = cellFinder.findNext();
+      let app = SpreadsheetApp.openByUrl(helpList);
+      let helpers = app.getSheetByName('helper');
+      let needsHelp = app.getSheetByName('needHelp');
+      let cellFinder = needsHelp.createTextFinder(id);
+      let needsHelpCell = cellFinder.findNext();
       while (needsHelpCell !== null && needsHelpCell.getColumn() !== 1) {
         needsHelpCell = cellFinder.findNext();
       }
       if (!(needsHelpCell)) { //the user is not in the table -> init user
-        var nextPlace = needsHelp.getRange(1, 1).getValue();
+        let nextPlace = needsHelp.getRange(1, 1).getValue();
         needsHelp.getRange(nextPlace, 1).setValue(id);
         needsHelp.getRange(1, 1).setValue(nextPlace + 1);
         row = nextPlace;
@@ -578,9 +579,9 @@ function doPost(e) {
         row = needsHelpCell.getRow();
       }
       set(id, text, name, 0);
-      var gender = needsHelp.getRange(row, 3).getValue();
-      var faculty = needsHelp.getRange(row, 4).getValue();
-      var topic = needsHelp.getRange(row, 5).getValue();
+      let gender = needsHelp.getRange(row, 3).getValue();
+      let faculty = needsHelp.getRange(row, 4).getValue();
+      let topic = needsHelp.getRange(row, 5).getValue();
       if ((!(gender)) && (!(faculty)) && (!(topic))) sendText(id, "There is no preference yet");
       else sendText(id, "Your current settings are:");
       if (gender) sendText(id, "Gender: " + gender);
@@ -589,20 +590,20 @@ function doPost(e) {
       sendKey(id, "Choose the settings you are willing to change", settingsKeyBoard);
     } else if (text == SFS) {
       sendText(id, "Students for Students is a project designed to encourage students to support other students businesses");
-      var app = SpreadsheetApp.openByUrl(businessExel);
-      var busi = app.getSheetByName('info');
+      let app = SpreadsheetApp.openByUrl(businessExel);
+      let busi = app.getSheetByName('info');
 
-      var maxCol = busi.getRange(2, 2).getValue();
-      var maxRow = busi.getRange(3, 2).getValue();
-      var topicBase = busi.getRange(4, 2).getValue();
-      var sectionBase = busi.getRange(5, 2).getValue();
-      var sectionsNum = busi.getRange(6, 2).getValue();
-      //var topicNum = busi.getRange(7, 2).getValue();
+      let maxCol = busi.getRange(2, 2).getValue();
+      let maxRow = busi.getRange(3, 2).getValue();
+      let topicBase = busi.getRange(4, 2).getValue();
+      let sectionBase = busi.getRange(5, 2).getValue();
+      let sectionsNum = busi.getRange(6, 2).getValue();
+      //let topicNum = busi.getRange(7, 2).getValue();
 
-      var courseList = [];
-      var numberList = [];
-      for (var i = sectionBase + 1; i < sectionBase * sectionsNum; i += sectionBase) {
-        var currTopic = busi.getRange(1, i).getValue();
+      let courseList = [];
+      let numberList = [];
+      for (let i = sectionBase + 1; i < sectionBase * sectionsNum; i += sectionBase) {
+        let currTopic = busi.getRange(1, i).getValue();
         //sendText(id, "test: currTopic: "+currTopic); 
         numberList.push(currTopic);
         courseList.push(currTopic);
@@ -619,11 +620,11 @@ function doPost(e) {
 
     //if mode - handle
     else if (mode == "Talk") {
-      var otherId = users.getRange(row, 4).getValue();
+      let otherId = users.getRange(row, 4).getValue();
       //sendText(id, otherId);//test
-      //var app = SpreadsheetApp.openByUrl(helpList);
-      //var helpers = app.getSheetByName('helper');
-      //var needsHelp = app.getSheetByName('needHelp');
+      //let app = SpreadsheetApp.openByUrl(helpList);
+      //let helpers = app.getSheetByName('helper');
+      //let needsHelp = app.getSheetByName('needHelp');
       if (text == "ביי" || text == "goodbye") { //text == "end" || text == "End" || text == 'quit' || text == "Quit"|| text == 'done' || text == "Done" ||
         sendText(otherId, text);
         sendText(id, "The conversation is over");
@@ -638,22 +639,22 @@ function doPost(e) {
       }
     } else if (mode == 'feedback') {
       // Fetch the email address
-      var emailAddress = "technobot404@gmail.com";
+      let emailAddress = "technobot404@gmail.com";
       // Send Alert Email.
-      var message = text;
-      var subject = 'You have a new feedback from technoBot user';
+      let message = text;
+      let subject = 'You have a new feedback from technoBot user';
       MailApp.sendEmail(emailAddress, subject, message + 'id: ' + id + ' ');
       sendText(id, "Thank you for your feedback! \uD83D\uDE4F");
       set(id, 0, name, 0);
       sendKey(id, "What would you like to do next?", mainKeyBoard);
     } else if (mode == 'Ride') {
-      var RidesEX = SpreadsheetApp.openByUrl(facultyRidesExel);
-      var Rides = RidesEX.getActiveSheet();
-      var list = Rides.createTextFinder(text).findAll();
+      let RidesEX = SpreadsheetApp.openByUrl(facultyRidesExel);
+      let Rides = RidesEX.getActiveSheet();
+      let list = Rides.createTextFinder(text).findAll();
       if (list.length > 0) {
-        var row = list[0].getRow();
-        var name = Rides.getRange(row, 1).getValue();
-        var link = Rides.getRange(row, 3).getValue();
+        let row = list[0].getRow();
+        let name = Rides.getRange(row, 1).getValue();
+        let link = Rides.getRange(row, 3).getValue();
         sendText(id, link + ' - ' + name);
       }
     } else if (mode == 'Add course') {
@@ -666,12 +667,12 @@ function doPost(e) {
         sendKey(id, "What would you like to do next?", mainKeyBoard);
       }
     } else if (mode == 'Write a review') {
-      var idRow = row;
-      var courseRow = users.getRange(idRow, 4).getValue();
-      var courseNumber = courses.getRange(courseRow, 1).getValue();
-      var courseName = courses.getRange(courseRow, 2).getValue();
+      let idRow = row;
+      let courseRow = users.getRange(idRow, 4).getValue();
+      let courseNumber = courses.getRange(courseRow, 1).getValue();
+      let courseName = courses.getRange(courseRow, 2).getValue();
       if (courseRow) {
-        var j = 7;
+        let j = 7;
         while (courses.getRange(courseRow, j).getValue()) {
           j++;
         }
@@ -681,13 +682,13 @@ function doPost(e) {
         set(id, 0, name, 0);
       }
     } else if (mode == 'Add telegram group') {
-      //var row = users.createTextFinder(id).findAll();
-      var courseRow = 0;
-      var idRow = row;
+      //let row = users.createTextFinder(id).findAll();
+      let courseRow = 0;
+      let idRow = row;
       courseRow = users.getRange(idRow, 4).getValue();
-      var courseNumber = courses.getRange(courseRow, 1).getValue();
-      var courseName = courses.getRange(courseRow, 2).getValue();
-      var group = courses.getRange(courseRow, 3).getValue();
+      let courseNumber = courses.getRange(courseRow, 1).getValue();
+      let courseName = courses.getRange(courseRow, 2).getValue();
+      let group = courses.getRange(courseRow, 3).getValue();
       if (group) {
         sendText(id, 'The group is already exist');
         sendText(id, group);
@@ -696,7 +697,7 @@ function doPost(e) {
         return;
       }
       if (courseRow) {
-        var checkIfLink = text.split('ttps://t.me/joinchat');
+        let checkIfLink = text.split('ttps://t.me/joinchat');
         if (checkIfLink.length !== 2) {
           sendText(id, 'This is not a link to telegram group. Please try again');
           sendKey(id, 'What would you like to do next?', mainKeyBoard)
@@ -709,12 +710,12 @@ function doPost(e) {
         }
       }
     } else if (mode == 'Add Teams link') {
-      var courseRow = 0;
-      var idRow = row;
+      let courseRow = 0;
+      let idRow = row;
       courseRow = users.getRange(idRow, 4).getValue();
-      var courseNumber = courses.getRange(courseRow, 1).getValue();
-      var courseName = courses.getRange(courseRow, 2).getValue();
-      var group = courses.getRange(courseRow, 6).getValue();
+      let courseNumber = courses.getRange(courseRow, 1).getValue();
+      let courseName = courses.getRange(courseRow, 2).getValue();
+      let group = courses.getRange(courseRow, 6).getValue();
       if (group) {
         sendText(id, 'The group is already exist');
         sendText(id, group);
@@ -723,7 +724,7 @@ function doPost(e) {
         return;
       }
       if (courseRow) {
-        var checkIfLink = text.split('ttps://teams.microsoft.com');
+        let checkIfLink = text.split('ttps://teams.microsoft.com');
         if (checkIfLink.length !== 2) {
           sendText(id, 'This is not a link to Teams Group \ud83d\udc6a. Please try again');
           sendKey(id, 'What would you like to do next?', mainKeyBoard)
@@ -736,11 +737,11 @@ function doPost(e) {
         }
       }
     } else if (mode == 'Add exams exel') {
-      var courseRow = 0;
-      var idRow = row;
+      let courseRow = 0;
+      let idRow = row;
       courseRow = users.getRange(idRow, 4).getValue();
-      var courseNumber = courses.getRange(courseRow, 1).getValue();
-      var courseName = courses.getRange(courseRow, 2).getValue();
+      let courseNumber = courses.getRange(courseRow, 1).getValue();
+      let courseName = courses.getRange(courseRow, 2).getValue();
       if (courseRow) {
         courses.getRange(courseRow, 4).setValue(text);
         sendText(id, "The exel is added to " + courseNumber + ' ' + courseName);
@@ -748,12 +749,12 @@ function doPost(e) {
     } else if (mode == faculty) {
       facultyGroupHandler(id, text);
     } else if (mode == 'Course') {
-      var list = courses.createTextFinder(text).findAll();
-      var len = list.length;
+      let list = courses.createTextFinder(text).findAll();
+      let len = list.length;
       if (len == 1) {
         sendOpt(id, name, courses, list[0].getRow());
       } else if (len > 1) {
-        var tooLong = false;
+        let tooLong = false;
         if (len > 50) {
           tooLong = true;
           sendText(id, 'There is too many courses containing: ' + text);
@@ -761,15 +762,15 @@ function doPost(e) {
         }
         if (!(tooLong)) {
           sendText(id, "looking for relevant courses..");
-          var courseNames = [];
-          var courseNumbers = [];
-          var count = 0;
+          let courseNames = [];
+          let courseNumbers = [];
+          let count = 0;
           while (count < len) {
-            var courseCol = list[count].getColumn();
+            let courseCol = list[count].getColumn();
             if (courseCol == 1 || courseCol == 2) {
-              var courseRow = list[count].getRow();
-              var courseName = courses.getRange(courseRow, 2).getValue();
-              var courseNumber = courses.getRange(courseRow, 1).getValue();
+              let courseRow = list[count].getRow();
+              let courseName = courses.getRange(courseRow, 2).getValue();
+              let courseNumber = courses.getRange(courseRow, 1).getValue();
               //if (!(courseNumbers.includes(courseNumber))){
               courseNames.push(courseName + " - " + courseNumber);
               courseNumbers.push(courseNumber)
@@ -804,31 +805,31 @@ function doPost(e) {
         return;
       }
       //getData
-      var app = SpreadsheetApp.openByUrl(helpList);
-      var helpers = app.getSheetByName('helper');
-      var needsHelp = app.getSheetByName('needHelp');
-      var rowFinder = needsHelp.createTextFinder(id);
-      var currID = rowFinder.findNext();
-      var row;
+      let app = SpreadsheetApp.openByUrl(helpList);
+      let helpers = app.getSheetByName('helper');
+      let needsHelp = app.getSheetByName('needHelp');
+      let rowFinder = needsHelp.createTextFinder(id);
+      let currID = rowFinder.findNext();
+      let row;
       while (currID !== null && currID.getColumn() !== 1) {
         currID = rowFinder.findNext();
         //sendText(id, "test "+row.getColumn());
       }
       if (currID == null) {
-        var nextFree = needsHelp.getRange(1, 1).getValue();
+        let nextFree = needsHelp.getRange(1, 1).getValue();
         needsHelp.getRange(nextFree, 1).setValue(id);
         needsHelp.getRange(nextFree, 6).setValue(0);//init black list
         needsHelp.getRange(1, 1).setValue(nextFree + 1);
         row = nextFree;
       } else row = currID.getRow();
       if (text == "Change helper") {
-        var helperId = needsHelp.getRange(row, 2).getValue();
+        let helperId = needsHelp.getRange(row, 2).getValue();
         if (helperId == 0) {
           sendText(id, "You have no helper yet. Choose 'anonymous chat' button to start a chat with a student.");
           return;
         }
         needsHelp.getRange(row, 2).setValue(0);
-        var BLCounter = needsHelp.getRange(row, 6).getValue();
+        let BLCounter = needsHelp.getRange(row, 6).getValue();
         needsHelp.getRange(row, 6 + BLCounter + 1).setValue(helperId);
         needsHelp.getRange(row, 6).setValue(BLCounter + 1);
         if (helperId) {
@@ -836,45 +837,45 @@ function doPost(e) {
           sendText(id, "You are welcome to fill the next form in order to give a feedback about your helper. Your helper id is: " + helperId);
           //findHelper(id);
           //free helper
-          var finderHelper = helpers.createTextFinder(helperId);
-          var helper = finderHelper.findNext();
+          let finderHelper = helpers.createTextFinder(helperId);
+          let helper = finderHelper.findNext();
           while (helper !== null && helper.getColumn() !== 1) {
             helper = finderHelper.findNext();
           }
-          var baseCol = 33;
+          let baseCol = 33;
           if (helper) {
-            var helperRow = helper.getRow();
-            var helperCol = helper.getColumn();
-            var nextFree = helpers.getRange(helperRow, 9).getValue();
+            let helperRow = helper.getRow();
+            let helperCol = helper.getColumn();
+            let nextFree = helpers.getRange(helperRow, 9).getValue();
             helpers.getRange(helperRow, 9).setValue(nextFree - 1);
             //swap with last
             //find id place in first table
-            var finderIdPlace = helpers.createTextFinder(id);
-            var IdCell = finderIdPlace.findNext();
+            let finderIdPlace = helpers.createTextFinder(id);
+            let IdCell = finderIdPlace.findNext();
             while (IdCell !== null && IdCell.getRow() !== helperRow) {
               IdCell = finderIdPlace.findNext();
             }
-            var IdCol = IdCell.getColumn();
-            var lastId = helpers.getRange(helperRow, nextFree - 1).getValue();
+            let IdCol = IdCell.getColumn();
+            let lastId = helpers.getRange(helperRow, nextFree - 1).getValue();
             helpers.getRange(helperRow, IdCol).setValue(lastId);
 
             //sendText to helper
             if (IdCol !== nextFree - 1) {
-              var studentNumber = IdCol - 9;
+              let studentNumber = IdCol - 9;
               sendText(helperId, "Student number " + studentNumber + " no longer needs your help.");
-              var lastNumber = nextFree - 1 - 9;
+              let lastNumber = nextFree - 1 - 9;
               sendText(helperId, "From now student number " + lastNumber + " has a new number: " + studentNumber);
             }
             //find in table and move to right place
-            var numberOfPatients = nextFree - 10;
-            var max = helpers.getRange(1, numberOfPatients + baseCol).getValue();
-            for (var i = 3; i < max; i++) {
-              var currIndex = helpers.getRange(i, numberOfPatients + baseCol).getValue();
+            let numberOfPatients = nextFree - 10;
+            let max = helpers.getRange(1, numberOfPatients + baseCol).getValue();
+            for (let i = 3; i < max; i++) {
+              let currIndex = helpers.getRange(i, numberOfPatients + baseCol).getValue();
               if (currIndex == helperRow) { //found in table. swap with last, update counter and move Back
-                var last = helpers.getRange(max - 1, numberOfPatients + baseCol).getValue();
+                let last = helpers.getRange(max - 1, numberOfPatients + baseCol).getValue();
                 helpers.getRange(i, numberOfPatients + baseCol).setValue(last);//insert last instead
                 helpers.getRange(1, numberOfPatients + baseCol).setValue(max - 1);//update counter
-                var beforeMax = helpers.getRange(1, numberOfPatients + baseCol - 1).getValue();
+                let beforeMax = helpers.getRange(1, numberOfPatients + baseCol - 1).getValue();
                 helpers.getRange(1, numberOfPatients + baseCol - 1).setValue(beforeMax + 1);//update counter
                 helpers.getRange(beforeMax, numberOfPatients + baseCol - 1).setValue(helperRow);//insert curr to the prev col
               }
@@ -908,40 +909,40 @@ function doPost(e) {
       //    }else if (mode == "Delete by Course Number"){
       //      sendText(id, "Test");
       //      //get course row
-      //      var courseToDelete = courses.createTextFinder(text).findNext().getRow();
+      //      let courseToDelete = courses.createTextFinder(text).findNext().getRow();
       //      sendText(id, courseToDelete);//test
-      //      var courseCol = 0;
-      //      var lastInCol;
-      //      var index = 5;
-      //      var currCourse = users.getRange(row, index).getValue();
+      //      let courseCol = 0;
+      //      let lastInCol;
+      //      let index = 5;
+      //      let currCourse = users.getRange(row, index).getValue();
       //      while (currCourse){
       //        if (currCourse == courseToDelete) courseCol = index;
       //        currCourse = users.getRange(row, ++index).getValue();
       //      }
       //      if (courseCol){
-      //        var lastCourse = users.getRange(row, index-1).getValue();
+      //        let lastCourse = users.getRange(row, index-1).getValue();
       //        users.getRange(row, courseCol).setValue(lastCourse);
       //        users.getRange(row, index-1).setValue(0);
       //      }
       //      sendText(id, "Course number " + text + " is not on your list anymore");
     } else if (mode == SFS) {
-      var app = SpreadsheetApp.openByUrl(businessExel);
-      var busi = app.getSheetByName('info');
+      let app = SpreadsheetApp.openByUrl(businessExel);
+      let busi = app.getSheetByName('info');
 
-      var maxCol = busi.getRange(2, 2).getValue();
-      var maxRow = busi.getRange(3, 2).getValue();
-      var topicBase = busi.getRange(4, 2).getValue();
-      var sectionBase = busi.getRange(5, 2).getValue();
-      var sectionsNum = busi.getRange(6, 2).getValue();
-      var topicNum = busi.getRange(7, 2).getValue();
+      let maxCol = busi.getRange(2, 2).getValue();
+      let maxRow = busi.getRange(3, 2).getValue();
+      let topicBase = busi.getRange(4, 2).getValue();
+      let sectionBase = busi.getRange(5, 2).getValue();
+      let sectionsNum = busi.getRange(6, 2).getValue();
+      let topicNum = busi.getRange(7, 2).getValue();
 
-      var currBusi = busi.createTextFinder(otherMode).findNext();
+      let currBusi = busi.createTextFinder(otherMode).findNext();
       if (currBusi) {
-        var busiCol = currBusi.getColumn();
-        var busiRow = currBusi.getRow();
+        let busiCol = currBusi.getColumn();
+        let busiRow = currBusi.getRow();
       }
       if (otherMode == "Add a Topic \ud83c\udfea") {
-        var isExist = busi.createTextFinder(text).findNext();
+        let isExist = busi.createTextFinder(text).findNext();
         if (isExist) sendText(id, "This topic is already exists. You can add your business by 'Add a Business \ud83c\udfea' button after entering the topic");
         else {
           busi.getRange(1, sectionBase * sectionsNum + 1).setValue(text);
@@ -952,15 +953,15 @@ function doPost(e) {
         }
         return;
       } else if (otherMode == "Pass") {//password is inserted in order to delete business
-        var textFinder = busi.createTextFinder(otherMode2);
-        var next = textFinder.findNext();
+        let textFinder = busi.createTextFinder(otherMode2);
+        let next = textFinder.findNext();
         if (next !== null) {
-          var nextRow = next.getRow();
-          var nextCol = next.getColumn();
+          let nextRow = next.getRow();
+          let nextCol = next.getColumn();
           if (text == busi.getRange(nextRow, nextCol - 1).getValue()) { //the password is good
-            var lastRow = 2 + busi.getRange(2, nextCol - 1).getValue();
-            for (var i = nextCol - 1; i < nextCol - 1 + 6; i++) {//move last to this row
-              var temp = busi.getRange(lastRow, i).getValue();
+            let lastRow = 2 + busi.getRange(2, nextCol - 1).getValue();
+            for (let i = nextCol - 1; i < nextCol - 1 + 6; i++) {//move last to this row
+              let temp = busi.getRange(lastRow, i).getValue();
               busi.getRange(nextRow, i).setValue(temp);
             }
             busi.getRange(2, nextCol - 1).setValue(lastRow - 2 - 1);
@@ -971,11 +972,11 @@ function doPost(e) {
         }
         return;
       } else if (otherMode == "PassToEdit") {//password is inserted in order to edit businesss
-        var textFinder = busi.createTextFinder(otherMode2);
-        var next = textFinder.findNext();
+        let textFinder = busi.createTextFinder(otherMode2);
+        let next = textFinder.findNext();
         if (next !== null) {
-          var nextRow = next.getRow();
-          var nextCol = next.getColumn();
+          let nextRow = next.getRow();
+          let nextCol = next.getColumn();
           if (text == busi.getRange(nextRow, nextCol - 1).getValue()) { //the password is good
             sendKey(id, "What information would you like to modify?", busiEditKeyBoard);
             set(id, SFS, 0, "GoodPass")
@@ -989,10 +990,10 @@ function doPost(e) {
         sendText(id, "please send the new information");
         return;
       }
-      var topic = otherMode2;//in name there is the topic in witch the user wants to insert the information
-      var currTopic = busi.createTextFinder(topic).findNext();
-      var topicCol = 0;
-      var topicCounter = 0;
+      let topic = otherMode2;//in name there is the topic in witch the user wants to insert the information
+      let currTopic = busi.createTextFinder(topic).findNext();
+      let topicCol = 0;
+      let topicCounter = 0;
       //sendText(id, "curr topic: "+topic+" "+currTopic);
       if (currTopic) {
         topicCol = currTopic.getColumn();
@@ -1001,7 +1002,7 @@ function doPost(e) {
 
       if (otherMode == "Password") {
         //sendText(id,"test");
-        var isExist = busi.createTextFinder(text).findNext();
+        let isExist = busi.createTextFinder(text).findNext();
         if (text.length >= 34) sendText(id, "The name is too long. Please choose another name for your business");
         else if (isExist) sendText(id, "This name is already taken. Please choose another name for your business");
         else {
@@ -1044,23 +1045,23 @@ function doPost(e) {
         set(id, mode, name, "null");
         return;
       } else if (otherMode == "Delete My Business \ud83d\udcdb") {
-        var isExist = busi.createTextFinder(text).findNext();
+        let isExist = busi.createTextFinder(text).findNext();
         if (!(isExist)) sendText(id, "There is no business with that name. Please check the name and try again");
         else {
-          var businessRow = isExist.getRow();
+          let businessRow = isExist.getRow();
           sendText(id, "Please insert you password in order to delete your business");
           set(id, mode, text, "Delete if Password");
         }
         return;
       } else if (otherMode == "Delete if Password") {
-        var busiToDelete = busi.createTextFinder(text).findNext();
-        var busiRow = busiToDelete.getRow();
-        var busiCol = busiToDelete.getColumn();
-        var afteLastInCol = busi.getRange(1, busiCol).getValue();
-        var lastInCol = busi.getRange(afteLastInCol - 1, busiCol).getValue();
-        var lastInColPass = busi.getRange(afteLastInCol - 1, busiCol - 1).getValue();
-        var lastInColDes = busi.getRange(afteLastInCol - 1, busiCol + 1).getValue();
-        var lastInColContact = busi.getRange(afteLastInCol - 1, busiCol + 3).getValue();
+        let busiToDelete = busi.createTextFinder(text).findNext();
+        let busiRow = busiToDelete.getRow();
+        let busiCol = busiToDelete.getColumn();
+        let afteLastInCol = busi.getRange(1, busiCol).getValue();
+        let lastInCol = busi.getRange(afteLastInCol - 1, busiCol).getValue();
+        let lastInColPass = busi.getRange(afteLastInCol - 1, busiCol - 1).getValue();
+        let lastInColDes = busi.getRange(afteLastInCol - 1, busiCol + 1).getValue();
+        let lastInColContact = busi.getRange(afteLastInCol - 1, busiCol + 3).getValue();
 
         busi.getRange(busiRow, busiCol).setValue(lastInCol);
         busi.getRange(busiRow - 1, busiCol).setValue(lastInColPass);
@@ -1071,33 +1072,33 @@ function doPost(e) {
 
       if (text == "Location") {
         if (currBusi) {
-          var textToSend = busi.getRange(busiRow, busiCol + 2).getValue();
+          let textToSend = busi.getRange(busiRow, busiCol + 2).getValue();
           sendText(id, textToSend);
         }
       } else if (text == "Get in Contact") {
         if (currBusi) {
-          var textToSend = busi.getRange(busiRow, busiCol + 3).getValue();
+          let textToSend = busi.getRange(busiRow, busiCol + 3).getValue();
           sendText(id, textToSend);
         }
       } else if (text == "Prices") {
         if (currBusi) {
-          var textToSend = busi.getRange(busiRow, busiCol + 4).getValue();
+          let textToSend = busi.getRange(busiRow, busiCol + 4).getValue();
           sendText(id, textToSend);
         }
       }
     } else if (mode == "GoodPass") {//helper function of STS: edit business // (id, GoodPass, busi name, information to change)
-      var app = SpreadsheetApp.openByUrl(businessExel);
-      var busi = app.getSheetByName('info');
+      let app = SpreadsheetApp.openByUrl(businessExel);
+      let busi = app.getSheetByName('info');
 
-      var maxCol = busi.getRange(2, 2).getValue();
-      var maxRow = busi.getRange(3, 2).getValue();
-      var topicBase = busi.getRange(4, 2).getValue();
-      var sectionBase = busi.getRange(5, 2).getValue();
-      var sectionsNum = busi.getRange(6, 2).getValue();
-      var topicNum = busi.getRange(7, 2).getValue();
-      var currBusi = busi.createTextFinder(otherMode2).findNext();
-      var busiRow = currBusi.getRow();
-      var busiCol = currBusi.getColumn();
+      let maxCol = busi.getRange(2, 2).getValue();
+      let maxRow = busi.getRange(3, 2).getValue();
+      let topicBase = busi.getRange(4, 2).getValue();
+      let sectionBase = busi.getRange(5, 2).getValue();
+      let sectionsNum = busi.getRange(6, 2).getValue();
+      let topicNum = busi.getRange(7, 2).getValue();
+      let currBusi = busi.createTextFinder(otherMode2).findNext();
+      let busiRow = currBusi.getRow();
+      let busiCol = currBusi.getColumn();
       //(otherMode == "Business name") busiCol+=0;
       if (otherMode == "Description") busiCol += 1;
       else if (otherMode == "Contact Information") busiCol += 3;
@@ -1113,52 +1114,52 @@ function doPost(e) {
 
 
 function findHelper(id) {
-  var app = SpreadsheetApp.openByUrl(helpList);
-  var helpers = app.getSheetByName('helper');
-  var needsHelp = app.getSheetByName('needHelp');
-  var cellFinder = needsHelp.createTextFinder(id);
-  var cell = cellFinder.findNext();
+  let app = SpreadsheetApp.openByUrl(helpList);
+  let helpers = app.getSheetByName('helper');
+  let needsHelp = app.getSheetByName('needHelp');
+  let cellFinder = needsHelp.createTextFinder(id);
+  let cell = cellFinder.findNext();
   while (cell !== null && cell.getColumn() !== 1) {
     cell = cellFinder.findNext();
   }
-  var needsHelpRow;
+  let needsHelpRow;
   if (cell == null) { //the user is not in the table -> init user
-    var nextPlace = needsHelp.getRange(1, 1).getValue();
+    let nextPlace = needsHelp.getRange(1, 1).getValue();
     needsHelp.getRange(nextPlace, 1).setValue(id);
     needsHelp.getRange(1, 1).setValue(nextPlace + 1);
     needsHelpRow = nextPlace;
   } else {
     needsHelpRow = cell.getRow();
   }
-  var helperId = needsHelp.getRange(needsHelpRow, 2).getValue();
+  let helperId = needsHelp.getRange(needsHelpRow, 2).getValue();
   if (helperId) {
     return helperId;
   }
   //sendText(id, "looking for your helper..");
   //init helper - find and register
   helperId = 0;
-  var maxScore = -1;
-  var helperRow = 0;
-  var helperRowTab = 0;
-  var helperColTab = 0;
-  var tableBase = 33;
-  for (var i = tableBase; i <= tableBase + 22; ++i) {//a table representing helpers by the number of students they are helping
-    var nextFree = helpers.getRange(1, i).getValue();//if > 3 there is some helpers witn  #(i - tableBase) students in this col
+  let maxScore = -1;
+  let helperRow = 0;
+  let helperRowTab = 0;
+  let helperColTab = 0;
+  let tableBase = 33;
+  for (let i = tableBase; i <= tableBase + 22; ++i) {//a table representing helpers by the number of students they are helping
+    let nextFree = helpers.getRange(1, i).getValue();//if > 3 there is some helpers witn  #(i - tableBase) students in this col
     if (nextFree > 3) {
-      for (var j = nextFree - 1; j > 2; j--) {
-        var tempHelperRow = helpers.getRange(j, i).getValue();
+      for (let j = nextFree - 1; j > 2; j--) {
+        let tempHelperRow = helpers.getRange(j, i).getValue();
 
         //check if helper can help more people
-        var maxHelp = helpers.getRange(tempHelperRow, 8).getValue();
-        var helpCount = helpers.getRange(tempHelperRow, 9).getValue() - 10;
-        var tempHelperId = helpers.getRange(tempHelperRow, 1).getValue();
+        let maxHelp = helpers.getRange(tempHelperRow, 8).getValue();
+        let helpCount = helpers.getRange(tempHelperRow, 9).getValue() - 10;
+        let tempHelperId = helpers.getRange(tempHelperRow, 1).getValue();
         if (maxHelp > helpCount) {
-          var score = 0;
+          let score = 0;
           if (tempHelperId == id) score -= 1000;
-          var blackIndex = 6;
-          var blackCounter = needsHelp.getRange(needsHelpRow, blackIndex).getValue();
-          for (var k = 1; k <= blackCounter; k++) {
-            var blackId = needsHelp.getRange(needsHelpRow, blackIndex + k).getValue();
+          let blackIndex = 6;
+          let blackCounter = needsHelp.getRange(needsHelpRow, blackIndex).getValue();
+          for (let k = 1; k <= blackCounter; k++) {
+            let blackId = needsHelp.getRange(needsHelpRow, blackIndex + k).getValue();
             if (tempHelperId == blackId) score -= 1000;
           }
           if (needsHelp.getRange(needsHelpRow, 3).getValue() == helpers.getRange(tempHelperRow, 7).getValue()) score += 1;//gender
@@ -1183,16 +1184,16 @@ function findHelper(id) {
 
   if (helperRow !== 0) {
     //swap with last in line - TODO CHECK & TESTS
-    var nextFree = helpers.getRange(1, helperColTab).getValue();
-    var lastInCol = helpers.getRange(nextFree - 1, helperColTab).getValue();
+    let nextFree = helpers.getRange(1, helperColTab).getValue();
+    let lastInCol = helpers.getRange(nextFree - 1, helperColTab).getValue();
     helpers.getRange(helperRowTab, helperColTab).setValue(lastInCol);
     helpers.getRange(nextFree - 1, helperColTab).setValue(0);//optional
     helpers.getRange(1, helperColTab).setValue(nextFree - 1);
-    var nextFreeNextCol = helpers.getRange(1, helperColTab + 1).getValue();
+    let nextFreeNextCol = helpers.getRange(1, helperColTab + 1).getValue();
     helpers.getRange(nextFreeNextCol, helperColTab + 1).setValue(helperRow);
     helpers.getRange(1, helperColTab + 1).setValue(nextFreeNextCol + 1);
     //update helper table
-    var nextFreePlace = helpers.getRange(helperRow, 9).getValue();
+    let nextFreePlace = helpers.getRange(helperRow, 9).getValue();
     helpers.getRange(helperRow, nextFreePlace).setValue(id);
     helpers.getRange(helperRow, 9).setValue(nextFreePlace + 1);
     helperId = helpers.getRange(helperRow, 1).getValue();
@@ -1304,14 +1305,14 @@ function simpleText(id, text) {
 
 
 function sendOpt(id, name, courses, courseRow) {
-  var exel = false;
-  var cs = false;
-  var teams = false;
+  let exel = false;
+  let cs = false;
+  let teams = false;
   set(id, 'Course', name, courseRow);
-  var courseNumber = courses.getRange(courseRow, 1).getValue();
-  var courseName = courses.getRange(courseRow, 2).getValue();
-  var mode = courses.getRange(courseRow, 5).getValue();
-  var link = courses.getRange(courseRow, 3).getValue();
+  let courseNumber = courses.getRange(courseRow, 1).getValue();
+  let courseName = courses.getRange(courseRow, 2).getValue();
+  let mode = courses.getRange(courseRow, 5).getValue();
+  let link = courses.getRange(courseRow, 3).getValue();
   if (mode == 1) {
     sendText(id, courseName + " - " + courseNumber);
     if (courses.getRange(courseRow, 6).getValue()) teams = true;
@@ -1371,85 +1372,86 @@ function sendOpt(id, name, courses, courseRow) {
 
 
 function getDone(id, name, command, users, courses) {
-  var cellFinder = users.createTextFinder(id);
-  var cell = cellFinder.findNext();
+  let cellFinder = users.createTextFinder(id);
+  let cell = cellFinder.findNext();
   while (cell && (cell.getColumn() !== 1)) cell = cellFinder.findNext();
-  var idRow = cell.getRow();
-  var courseRow = users.getRange(idRow, 4).getValue();
+  let idRow = cell.getRow();
+  let courseRow = users.getRange(idRow, 4).getValue();
   if (courseRow) {
-    var courseNumber = courses.getRange(courseRow, 1).getValue();
-    var courseName = courses.getRange(courseRow, 2).getValue();
-    var group = courses.getRange(courseRow, 3).getValue();
-    var exel = courses.getRange(courseRow, 4).getValue();
-    var teams = courses.getRange(courseRow, 6).getValue();
-    var csCourse = false;
+    let courseNumber = courses.getRange(courseRow, 1).getValue();
+    let courseName = courses.getRange(courseRow, 2).getValue();
+    let group = courses.getRange(courseRow, 3).getValue();
+    let exel = courses.getRange(courseRow, 4).getValue();
+    let teams = courses.getRange(courseRow, 6).getValue();
+    let csCourse = false;
     if ((courseNumber.indexOf('236') !== -1) || (courseNumber.indexOf('234') !== -1)) {
       csCourse = true;
     }
+    let currentCounter;
     switch (command) {
       case drive:
         sendText(id, "Looking for a link to the drive " + driveSy);
         driveHandler(id, courseNumber, courseName);
-        var currentCounter = users.getRange(2, 9).getValue();
+        currentCounter = users.getRange(2, 9).getValue();
         users.getRange(2, 9).setValue(++currentCounter);
         break;
       case courseGroup:
         sendText(id, "Looking for telegram group" + groupSy);
         if (group) sendText(id, group);
         else sendText(id, "There is no telegram group for this course yet. you can open and add a groupby using 'Add group'");
-        var currentCounter = users.getRange(2, 8).getValue();
+        currentCounter = users.getRange(2, 8).getValue();
         users.getRange(2, 8).setValue(++currentCounter);
         break;
       case "Teams Group \ud83d\udc6a":
         sendText(id, "Looking for Teams Group \ud83d\udc6a" + groupSy);
         if (teams) sendText(id, teams);
         else sendText(id, "There is no Teams Group \ud83d\udc6a for this course yet. you can open and add a groupby using 'Add group'")
-        var currentCounter = users.getRange(2, 8).getValue();
+        currentCounter = users.getRange(2, 8).getValue();
         users.getRange(2, 8).setValue(++currentCounter);
         break;
       case testock:
         sendText(id, "Looking for a link to the test scans " + scansSy);
         scansHandler(id, courseNumber);
-        var currentCounter = users.getRange(2, 11).getValue();
+        currentCounter = users.getRange(2, 11).getValue();
         users.getRange(2, 11).setValue(++currentCounter);
         break;
       case 'All tests - exel':
         sendText(id, "Looking for a link to the tests exel " + groupSy);
         sendText(id, exel);
-        var currentCounter = users.getRange(2, 11).getValue();
+        currentCounter = users.getRange(2, 11).getValue();
         users.getRange(2, 11).setValue(++currentCounter);
         break;
       case reviews:
         reviewsHandler(id, courseRow, courses, 0);
-        var currentCounter = users.getRange(2, 10).getValue();
+        currentCounter = users.getRange(2, 10).getValue();
         users.getRange(2, 10).setValue(++currentCounter);
         break;
       case facebook:
         facebookHandler(id, courseNumber, courseName);
-        var currentCounter = users.getRange(2, 7).getValue();
+        currentCounter = users.getRange(2, 7).getValue();
         users.getRange(2, 7).setValue(++currentCounter);
         break;
       case youTube:
         youtubeHandler(id, courseNumber, courseName)
-        var currentCounter = users.getRange(2, 7).getValue();
+        currentCounter = users.getRange(2, 7).getValue();
         users.getRange(2, 7).setValue(++currentCounter);
         break;
       case ug:
         sendText(id, "Looking for ug link " + ugSy);
         sendText(id, "https://ug3.technion.ac.il/rishum/course/" + courseNumber);
-        var currentCounter = users.getRange(2, 6).getValue();
+        currentCounter = users.getRange(2, 6).getValue();
         users.getRange(2, 6).setValue(++currentCounter);
         break;
       case cs:
         sendText(id, "Looking for computer science link " + csSy);
         sendText(id, "https://webcourse.cs.technion.ac.il/" + courseNumber);
-        var currentCounter = users.getRange(2, 6).getValue();
+        currentCounter = users.getRange(2, 6).getValue();
         users.getRange(2, 6).setValue(++currentCounter);
         break;
       case moodle:
         sendText(id, "Looking for moodle link " + moodleSy);
         sendText(id, "https://moodle.technion.ac.il/course/search.php?search=" + courseNumber);
-        var currentCounter = users.getRange(2, 6).getValue();
+        currentCounter = users.getRange(2, 6).getValue();
         users.getRange(2, 6).setValue(++currentCounter);
         break;
       case  "Course info":
@@ -1499,9 +1501,9 @@ function panoptoHandler(id, courseNumber) {
 
 function youtubeHandler(id, courseNumber, courseName) {
   sendText(id, "Looking for YouTube link " + YouTubeSy);
-  var splited = courseName.split(' ');
-  var combined = "+";
-  for (var i = 0; splited[i]; i++) {
+  let splited = courseName.split(' ');
+  let combined = "+";
+  for (let i = 0; splited[i]; i++) {
     combined += splited[i];
     combined += '+';
   }
@@ -1510,15 +1512,15 @@ function youtubeHandler(id, courseNumber, courseName) {
 
 function facebookHandler(id, courseNumber, courseName) {
   sendText(id, "Looking for facebook link" + facebookSy);
-  var nameCheck = courseName.split('(');
+  let nameCheck = courseName.split('(');
   if (nameCheck.length > 1) {
     courseName = nameCheck[0];
   }
-  var nameList = courseName.split(' ');
-  var len = nameList.length;
+  let nameList = courseName.split(' ');
+  let len = nameList.length;
   if (len > 1) {
-    var tempName = "";
-    for (var count = 0; count < len; count++) {
+    let tempName = "";
+    for (let count = 0; count < len; count++) {
       tempName = tempName + "%20";
       tempName = tempName + nameList[count];
       courseName = tempName;
@@ -1534,27 +1536,28 @@ function scansHandler(id, number) {
 
 //handler using sheets
 function facultyGroupHandler(id, data) {
-  var facultyEX = SpreadsheetApp.openByUrl(facultyRidesExel);
-  var faculties = facultyEX.getActiveSheet();
-  var row = faculties.createTextFinder(data).findNext();
-  var i = row.getRow();
-  var groupName = faculties.getRange(i, 3).getValue();
-  var currLink = faculties.getRange(i, 2).getValue();
+  let facultyEX = SpreadsheetApp.openByUrl(facultyRidesExel);
+  let faculties = facultyEX.getActiveSheet();
+  let row = faculties.createTextFinder(data).findNext();
+  let i = row.getRow();
+  let groupName = faculties.getRange(i, 3).getValue();
+  let currLink = faculties.getRange(i, 2).getValue();
   sendText(id, currLink + ' - ' + groupName);
   if (groupName == 'סטודנטים בטכניון') sendText(id, 'https://teams.microsoft.com/l/team/19%3afde92135b254443db1e887147bbfdc09%40thread.skype/conversations?groupId=484ee060-222c-465a-9d1b-65803822e19f&tenantId=f1502c4c-ee2e-411c-9715-c855f6753b84 - Teams Group')
 }
 
 //handler using drive
 function driveHandler(id, courseNumber, courseName) {
-  var found = 0;
-  var dApp = DriveApp;
+  let found = 0;
+  let dApp = DriveApp;
+  let folderItr, folder, subFolderItr, semestersItr;
   sendText(id, "Searching in CS..");
-  var folderItr = dApp.getFoldersByName("Technion CS");
-  var folder = folderItr.next();
-  var subFolderItr = folder.getFolders();
+  folderItr = dApp.getFoldersByName("Technion CS");
+  folder = folderItr.next();
+  subFolderItr = folder.getFolders();
   while (subFolderItr.hasNext()) {
-    var subFolder = subFolderItr.next();
-    var currFolderName = subFolder.getName();
+    let subFolder = subFolderItr.next();
+    let currFolderName = subFolder.getName();
     if (currFolderName.indexOf(courseNumber) !== -1) {
       found = true;
       sendText(id, currFolderName);
@@ -1562,12 +1565,12 @@ function driveHandler(id, courseNumber, courseName) {
       return;
     }
   }
-  var scienceItr = folder.getFoldersByName("קורסים מדעיים");
-  var science = scienceItr.next();
-  var subFolderItr = science.getFolders()
+  let scienceItr = folder.getFoldersByName("קורסים מדעיים");
+  let science = scienceItr.next();
+  subFolderItr = science.getFolders()
   while (subFolderItr.hasNext()) {
-    var s = subFolderItr.next();
-    var currFolderName = s.getName();
+    let s = subFolderItr.next();
+    let currFolderName = s.getName();
     if (currFolderName.indexOf(courseNumber) !== -1) {
       found = true;
       sendText(id, currFolderName);
@@ -1575,14 +1578,14 @@ function driveHandler(id, courseNumber, courseName) {
       return;
     }
   }
-  var folderItr = dApp.getFoldersByName("Technion CS");
-  var folder = folderItr.next();
-  var humanItr = folder.getFoldersByName("קורסים הומניים");
-  var human = humanItr.next();
-  var subFolderItr = human.getFolders()
+  folderItr = dApp.getFoldersByName("Technion CS");
+  folder = folderItr.next();
+  let humanItr = folder.getFoldersByName("קורסים הומניים");
+  let human = humanItr.next();
+  subFolderItr = human.getFolders()
   while (subFolderItr.hasNext()) {
-    var h = subFolderItr.next();
-    var currFolderName = h.getName();
+    let h = subFolderItr.next();
+    let currFolderName = h.getName();
     if (currFolderName.indexOf(courseNumber) !== -1) {
       found = true;
       sendText(id, currFolderName);
@@ -1591,12 +1594,12 @@ function driveHandler(id, courseNumber, courseName) {
     }
   }
   sendText(id, "Searching in Industrial Engineering and Management..");
-  var folderItr = dApp.getFoldersByName("Technion Drive - Public");
-  var folder = folderItr.next();
-  var subFolderItr = folder.getFolders();
+  folderItr = dApp.getFoldersByName("Technion Drive - Public");
+  folder = folderItr.next();
+  subFolderItr = folder.getFolders();
   while (subFolderItr.hasNext()) {
-    var subFolder = subFolderItr.next();
-    var currFolderName = subFolder.getName();
+    let subFolder = subFolderItr.next();
+    let currFolderName = subFolder.getName();
     if (currFolderName.indexOf(courseName) !== -1) {
       found = true;
       sendText(id, currFolderName);
@@ -1605,12 +1608,12 @@ function driveHandler(id, courseNumber, courseName) {
     }
   }
   sendText(id, "Searching in Electrical Engineering..");
-  var folderItr = dApp.getFoldersByName("הנדסת חשמל טכניון");
-  var folder = folderItr.next();
-  var subFolderItr = folder.getFolders();
+  folderItr = dApp.getFoldersByName("הנדסת חשמל טכניון");
+  folder = folderItr.next();
+  subFolderItr = folder.getFolders();
   while (subFolderItr.hasNext()) {
-    var subFolder = subFolderItr.next();
-    var currFolderName = subFolder.getName();
+    let subFolder = subFolderItr.next();
+    let currFolderName = subFolder.getName();
     if (currFolderName.indexOf(courseNumber) !== -1) {
       sendText(id, currFolderName);
       sendText(id, subFolder.getUrl());
@@ -1618,15 +1621,15 @@ function driveHandler(id, courseNumber, courseName) {
     }
   }
   sendText(id, "Searching in Mechanical engineering..");
-  var folderItr = dApp.getFoldersByName("הנדסת מכונות - דרייב פקולטי");
-  var folder = folderItr.next();
-  var semestersItr = folder.getFolders();
+  folderItr = dApp.getFoldersByName("הנדסת מכונות - דרייב פקולטי");
+  folder = folderItr.next();
+  semestersItr = folder.getFolders();
   while (semestersItr.hasNext()) {
-    var semesters = semestersItr.next();
-    var subFolderItr = semesters.getFolders();
+    let semesters = semestersItr.next();
+    subFolderItr = semesters.getFolders();
     while (subFolderItr.hasNext()) {
-      var subFolder = subFolderItr.next();
-      var currFolderName = subFolder.getName();
+      let subFolder = subFolderItr.next();
+      let currFolderName = subFolder.getName();
       if (currFolderName.indexOf(courseNumber) !== -1) {
         found = true;
         sendText(id, currFolderName);
@@ -1637,15 +1640,15 @@ function driveHandler(id, courseNumber, courseName) {
   }
   //The drive has been deleted
 //  sendText(id, "Searching in Civil engineering..");
-//  var folderItr = dApp.getFoldersByName("אזרחית 2014");
-//  var folder = folderItr.next();
-//  var semestersItr = folder.getFolders();
+//  folderItr = dApp.getFoldersByName("אזרחית 2014");
+//  folder = folderItr.next();
+//  let semestersItr = folder.getFolders();
 //  while (semestersItr.hasNext()){
-//    var semesters = semestersItr.next();
-//    var subFolderItr = semesters.getFolders();
+//    let semesters = semestersItr.next();
+//    subFolderItr = semesters.getFolders();
 //    while (subFolderItr.hasNext()){
-//      var subFolder = subFolderItr.next();
-//      var currFolderName = subFolder.getName();
+//      let subFolder = subFolderItr.next();
+//      let currFolderName = subFolder.getName();
 //      if (currFolderName.indexOf(courseName) !== -1){
 //        found = true;
 //        sendText(id, currFolderName);
@@ -1655,12 +1658,12 @@ function driveHandler(id, courseNumber, courseName) {
 //    }
 //  }
   sendText(id, "Searching in Physics..");
-  var folderItr = dApp.getFoldersByName("PhysicsDrive");
-  var folder = folderItr.next();
-  var subFolderItr = folder.getFolders();
+  folderItr = dApp.getFoldersByName("PhysicsDrive");
+  folder = folderItr.next();
+  subFolderItr = folder.getFolders();
   while (subFolderItr.hasNext()) {
-    var subFolder = subFolderItr.next();
-    var currFolderName = subFolder.getName();
+    let subFolder = subFolderItr.next();
+    let currFolderName = subFolder.getName();
     if (currFolderName.indexOf(courseNumber) !== -1) {
       found = true;
       sendText(id, currFolderName);
@@ -1669,15 +1672,15 @@ function driveHandler(id, courseNumber, courseName) {
     }
   }
   sendText(id, "Searching in Aerospace Engineering..");
-  var folderItr = dApp.getFoldersByName("טכניון");
-  var folder = folderItr.next();
-  var semestersItr = folder.getFolders();
+  folderItr = dApp.getFoldersByName("טכניון");
+  folder = folderItr.next();
+  semestersItr = folder.getFolders();
   while (semestersItr.hasNext()) {
-    var semesters = semestersItr.next();
-    var subFolderItr = semesters.getFolders();
+    let semesters = semestersItr.next();
+    subFolderItr = semesters.getFolders();
     while (subFolderItr.hasNext()) {
-      var subFolder = subFolderItr.next();
-      var currFolderName = subFolder.getName();
+      let subFolder = subFolderItr.next();
+      let currFolderName = subFolder.getName();
       if (currFolderName.indexOf(courseName) !== -1) {
         found = true;
         sendText(id, currFolderName);
@@ -1705,11 +1708,11 @@ function courseAdd(id, courseNumber, courseName, link, courses) {
     sendText(id, "Wrong course number", mainKeyBoard);
     return;
   }
-  var list = courses.createTextFinder(courseNumber).findAll();
+  let list = courses.createTextFinder(courseNumber).findAll();
   if (list.length >= 1) {
     sendKey(id, "The course is already registered", mainKeyBoard);
   } else {
-    var i = courses.getRange(numberOfCourses, numberOfReviews).getValue();
+    let i = courses.getRange(numberOfCourses, numberOfReviews).getValue();
     if (i == numberOfCourses) {
       sendKey(id, 'The list is full', mainKeyBoard);
       return;
@@ -1725,7 +1728,7 @@ function courseAdd(id, courseNumber, courseName, link, courses) {
 //not so useful feature, probably goes down
 function reviewsHandler(id, i, courses, isAll) {
   sendText(id, "Looking for reviews " + reviewsSy);
-  var j = 7;
+  let j = 7;
   while (courses.getRange(i, j).getValue()) {
     sendText(id, courses.getRange(i, j).getValue());
     j++;
@@ -1737,15 +1740,15 @@ function reviewsHandler(id, i, courses, isAll) {
 }
 
 //important function set(id, data, name, num)
-//Description: the function changes the cell in the sheets according to the data and num variables. 
+//Description: the function changes the cell in the sheets according to the data and num letiables. 
 //That way the bot can "remember" the previous commands in order to complete the commands.
 //input: user id, data(string) that determines the state of the student in the sheets,
 //name of the user and num that most of the time is the number of the course
 function set(id, data, name, num) {
-  var app = SpreadsheetApp.openByUrl(userExel);
-  var ss = app.getActiveSheet();
-  var rowFinder = ss.createTextFinder(id);
-  var row = rowFinder.findNext();
+  let app = SpreadsheetApp.openByUrl(userExel);
+  let ss = app.getActiveSheet();
+  let rowFinder = ss.createTextFinder(id);
+  let row = rowFinder.findNext();
   while (row !== null && row.getColumn() !== 1) row = rowFinder.findNext();
   if (row !== null) {
     row = row.getRow();
@@ -1756,13 +1759,13 @@ function set(id, data, name, num) {
     return;
   } else {
     //   sendText(id, row);//test
-    var next = ss.getRange(2, 4).getValue();
+    let next = ss.getRange(2, 4).getValue();
     if (next == numberOfCourses) {
       // Fetch the email address
-      var emailAddress = "technobot404@gmail.com";
+      let emailAddress = "technobot404@gmail.com";
       // Send Alert Email.
-      var message = "The 'mode' list is full!!";
-      var subject = 'You have a problem in TBot';
+      let message = "The 'mode' list is full!!";
+      let subject = 'You have a problem in TBot';
       MailApp.sendEmail(emailAddress, subject, message);
       sendText(id, 'There is a temporary error');
     }
@@ -1777,70 +1780,70 @@ function set(id, data, name, num) {
 
 //functions that runs once a day and updates the courses acording to ug updates
 function getCourses() {
-  var urlCourses = "https://raw.githubusercontent.com/michael-maltsev/cheese-fork/gh-pages/courses/courses_";
-  var year = "2020";
-  var semesterNum = "01";
-  var response = UrlFetchApp.fetch(urlCourses + year + semesterNum + ".min.js");
-  var response = response.getContentText();
+  let urlCourses = "https://raw.githubusercontent.com/michael-maltsev/cheese-fork/gh-pages/courses/courses_";
+  let year = "2020";
+  let semesterNum = "01";
+  let response = UrlFetchApp.fetch(urlCourses + year + semesterNum + ".min.js");
+  response = response.getContentText();
   return response;
 }
 
 function updateCourses() {
-  var str = getCourses();
-  var crs = SpreadsheetApp.openByUrl(courseExel).getActiveSheet();
+  let str = getCourses();
+  let crs = SpreadsheetApp.openByUrl(courseExel).getActiveSheet();
   while (str.indexOf("general") !== -1) {
     str = str.slice(str.indexOf("general"));
     str = str.slice(str.indexOf("פקולטה"));
     str = str.slice(str.indexOf(":"));
     str = str.slice(2);
-    var crsFaculty = str.slice(0, str.indexOf('"'));
+    let crsFaculty = str.slice(0, str.indexOf('"'));
     str = str.slice(str.indexOf("שם מקצוע"));
     str = str.slice(str.indexOf(":"));
     str = str.slice(2);
-    var crsName = str.slice(0, str.indexOf('"'));
+    let crsName = str.slice(0, str.indexOf('"'));
     str = str.slice(str.indexOf("מספר מקצוע"));
     str = str.slice(str.indexOf(":"));
     str = str.slice(2);
-    var crsNum = str.slice(0, str.indexOf('"'));
-    var silIndex = str.indexOf("סילבוס");
+    let crsNum = str.slice(0, str.indexOf('"'));
+    let silIndex = str.indexOf("סילבוס");
     if (silIndex !== -1) {
       str = str.slice(str.indexOf("סילבוס"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      var crsSil = str.slice(0, str.indexOf('"'));
+      let crsSil = str.slice(0, str.indexOf('"'));
     }
-    var kdamIndex = str.indexOf("מקצועות קדם")
+    let kdamIndex = str.indexOf("מקצועות קדם")
     if (kdamIndex !== -1) {
       str = str.slice(str.indexOf("מקצועות קדם"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      var crsKdam = str.slice(0, str.indexOf('"'));
+      let crsKdam = str.slice(0, str.indexOf('"'));
     }
-    var profIndex = str.indexOf("אחראים");
+    let profIndex = str.indexOf("אחראים");
     if (profIndex !== -1) {
       str = str.slice(str.indexOf("אחראים"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      var crsProf = str.slice(0, str.indexOf('"'));
+      let crsProf = str.slice(0, str.indexOf('"'));
     }
-    var AIndex = str.indexOf("מועד א");
+    let AIndex = str.indexOf("מועד א");
     if (AIndex !== -1) {
       str = str.slice(str.indexOf("מועד א"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      var crsA = str.slice(0, str.indexOf('"'));
+      let crsA = str.slice(0, str.indexOf('"'));
     }
-    var BIndex = str.indexOf("מועד ב");
+    let BIndex = str.indexOf("מועד ב");
     if (BIndex) {
       str = str.slice(str.indexOf("מועד ב"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      var crsB = str.slice(0, str.indexOf('"'));
+      let crsB = str.slice(0, str.indexOf('"'));
     }
-    var courseFinder = crs.createTextFinder(crsNum);
-    var cell = courseFinder.findNext();
+    let courseFinder = crs.createTextFinder(crsNum);
+    let cell = courseFinder.findNext();
     if (!(cell)) {
-      var nextFreeRow = crs.getRange(1292, 1).getValue();
+      let nextFreeRow = crs.getRange(1292, 1).getValue();
       crs.getRange(1292, 1).setValue(nextFreeRow + 1);
       crs.getRange(nextFreeRow, 5).setValue(crsFaculty);
       crs.getRange(nextFreeRow, 2).setValue(crsName);
@@ -1866,33 +1869,33 @@ function updateCourses() {
 }
 
 function getLinks() {
-  var coursesExelNew = "https://docs.google.com/spreadsheets/d/1hkWNJhWBHJfsVWV-0DcMRphsJXE79JvuJAXhvlnC7OY/edit#gid=0";
-  var newCrs = SpreadsheetApp.openByUrl(coursesExelNew);
-  var crs = newCrs.getSheetByName('Courses');
-  var old = SpreadsheetApp.openByUrl(courseExel).getActiveSheet();
+  let coursesExelNew = "https://docs.google.com/spreadsheets/d/1hkWNJhWBHJfsVWV-0DcMRphsJXE79JvuJAXhvlnC7OY/edit#gid=0";
+  let newCrs = SpreadsheetApp.openByUrl(coursesExelNew);
+  let crs = newCrs.getSheetByName('Courses');
+  let old = SpreadsheetApp.openByUrl(courseExel).getActiveSheet();
 
-  var row = 966;
-  var courseNumber = old.getRange(row, 1).getValue();
+  let row = 966;
+  let courseNumber = old.getRange(row, 1).getValue();
   while (courseNumber !== -1) {
-    var crsName = old.getRange(row, 2).getValue()
-    var telegramLink = old.getRange(row, 3).getValue();
-    var exelLink = old.getRange(row, 4).getValue();
-    var teamsLink = old.getRange(row, 6).getValue();
+    let crsName = old.getRange(row, 2).getValue()
+    let telegramLink = old.getRange(row, 3).getValue();
+    let exelLink = old.getRange(row, 4).getValue();
+    let teamsLink = old.getRange(row, 6).getValue();
     if (courseNumber == null || courseNumber == "" || courseNumber == 0) {
 
     } else {
-      var courseFinder = crs.createTextFinder(courseNumber);
-      var nextCourse = courseFinder.findNext();
+      let courseFinder = crs.createTextFinder(courseNumber);
+      let nextCourse = courseFinder.findNext();
       while (nextCourse !== null && nextCourse.getColumn() !== 1) {
-        var nextCourse = courseFinder.findNext();
+        let nextCourse = courseFinder.findNext();
       }
       if (nextCourse) {
-        var courseRow = nextCourse.getRow();
+        let courseRow = nextCourse.getRow();
         crs.getRange(courseRow, 3).setValue(telegramLink);
         crs.getRange(courseRow, 4).setValue(exelLink);
         crs.getRange(courseRow, 6).setValue(teamsLink);
       } else {//add course
-        var nextFreeRow = crs.getRange(1, 2).getValue();
+        let nextFreeRow = crs.getRange(1, 2).getValue();
         crs.getRange(nextFreeRow, 2).setValue(crsName);
         crs.getRange(nextFreeRow, 1).setValue(courseNumber);
         crs.getRange(nextFreeRow, 3).setValue(telegramLink);
@@ -1908,9 +1911,9 @@ function getLinks() {
 
 //function that makes an internal keyboard from the numbers in the spreadsheet.
 function makeKeyBoard(id, names, numbers) {
-  var num = names.length;
-  var newKeyBoard = [];
-  for (var i = 0; i < num; i++) {
+  let num = names.length;
+  let newKeyBoard = [];
+  for (let i = 0; i < num; i++) {
     //sendText(id, names[i] + " - " + numbers[i]);//test
     newKeyBoard.push([{"text": names[i], 'callback_data': numbers[i]}]);
   }
@@ -1919,7 +1922,7 @@ function makeKeyBoard(id, names, numbers) {
 }
 
 //keyBoards
-var mainKeyBoard = [
+let mainKeyBoard = [
   [{text: course}, {text: "My Courses \ud83d\udccc"}],
   [{text: SFS}, {text: help}],
   [{text: ride}, {text: faculty}],
@@ -1928,18 +1931,18 @@ var mainKeyBoard = [
   [{text: About}]
 ]
 
-var rideKeyBoard = [
+let rideKeyBoard = [
   [{text: "אזור ירושליים"}, {text: "אזור תל אביב-יפו והמרכז"}, {text: "אזור חיפה והצפון"}],
   [{text: "אזור השפלה והדרום"}, {text: "אזור השרון"}, {text: "טרמפים בפייסבוק"}],
   [{text: "תפריט ראשי"}]
 ]
-var jeKeyBoard = [
+let jeKeyBoard = [
   [{text: "מעלה אדומים"}, {text: "ביתר עילית"}],
   [{text: "ירושלים"}, {text: "בית שמש"}],
   [{text: "רשימת אזורים"}],
   [{text: "תפריט ראשי"}]
 ]
-var teKeyBoard = [
+let teKeyBoard = [
   [{text: "חולון"}, {text: "תל אביב-יפו"}, {text: "קרית אונו"}],
   [{text: "אור יהודה"}, {text: "יהוד-מונוסון"}, {text: "רמת השרון"}],
   [{text: "בת ים"}, {text: "גבעתיים"}, {text: "בני ברק"}],
@@ -1948,7 +1951,7 @@ var teKeyBoard = [
   [{text: "רשימת אזורים"}],
   [{text: "תפריט ראשי"}]
 ]
-var heKeyBoard = [
+let heKeyBoard = [
   [{text: "טבריה"}, {text: "קרית שמונה"}, {text: "צפת"}],
   [{text: "מגדל העמק"}, {text: "עפולה"}, {text: "נשר"}],
   [{text: "חיפה"}, {text: "טירת כרמל"}, {text: "אור עקיבא"}],
@@ -1959,7 +1962,7 @@ var heKeyBoard = [
   [{text: "רשימת אזורים"}],
   [{text: "תפריט ראשי"}]
 ]
-var soKeyBoard = [
+let soKeyBoard = [
   [{text: "ערד"}, {text: "דימונה"}, {text: "באר שבע"}],
   [{text: "רהט"}, {text: "רמלה"}, {text: "מודיעין-מכבים-רעות"}],
   [{text: "יבנה"}, {text: "רחובות"}, {text: "נס ציונה"}],
@@ -1969,13 +1972,13 @@ var soKeyBoard = [
   [{text: "רשימת אזורים"}],
   [{text: "תפריט ראשי"}]
 ]
-var shKeyBoard = [
+let shKeyBoard = [
   [{text: "רעננה"}, {text: "הוד השרון"}, {text: "הרצליה"}],
   [{text: "כפר סבא"}, {text: "נתניה"}, {text: "טירה"}],
   [{text: "רשימת אזורים"}],
   [{text: "תפריט ראשי"}]
 ]
-var usefulKeyBoard = [
+let usefulKeyBoard = [
   [{text: "Technion Students FAQ (doc)"}, {text: "useful links from facebook (doc)"}],
   [{text: "cheese&fork"}, {text: "scans - cf"}, {text: "testock"}],
   [{text: "moodle " + moodleSy}, {text: "ug " + ugSy}, {text: calendar}],
@@ -1983,7 +1986,7 @@ var usefulKeyBoard = [
   [{text: "MyDegree"}, {text: Corona}],
   [{text: mainMenu}]
 ]
-var printKeyBoard = [
+let printKeyBoard = [
   [{text: "A4 B&W single sided"}, {text: "A4 B&W two sided"}],
   [{text: "A4 Color single sided"}],
   [{text: "A3 B&W single sided"}, {text: "A3 B&W two sided"}],
@@ -1994,7 +1997,7 @@ var printKeyBoard = [
 ]
 
 /*
-var coursesKeyBoardEn = [
+let coursesKeyBoardEn = [
   [{ text: "Computer Science" }, { text: 'Electrical Engineering' }, { text: 'Mechanical Engineering' }],
   [{ text: 'Civil and Environmental Engineering' }, { text: 'Industrial Engineering and Management' }, { text: 'Biomedical Engineering' }],
   [{ text: 'Chemical Engineering' }, { text: 'Biotechnology and Food Engineering' }, { text: 'Materials Science & Engineering' }],
@@ -2005,7 +2008,7 @@ var coursesKeyBoardEn = [
 ]
 */
 
-var coursesKeyBoard = [
+let coursesKeyBoard = [
   [{text: "סטודנטים בטכניון"}],
   [{text: "מדעי המחשב"}, {text: 'הנדסת חשמל'}, {text: 'הנדסת מכונות'}],
   [{text: 'הנדסה אזרחית וסביבתית'}, {text: 'הנדסת תעשייה וניהול'}, {text: 'הנדסה ביו-רפואית'}],
@@ -2017,12 +2020,12 @@ var coursesKeyBoard = [
   [{text: "תפריט ראשי"}]
 ]
 
-var ridesBackKeyBoard = [
+let ridesBackKeyBoard = [
   [{text: "רשימת אזורים"}],
   [{text: "תפריט ראשי"}]
 ]
 
-var allKeyBoard = [
+let allKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}],
@@ -2032,7 +2035,7 @@ var allKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var gallKeyBoard = [
+let gallKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}],
@@ -2041,7 +2044,7 @@ var gallKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var tgallKeyBoard = [
+let tgallKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}],
@@ -2051,7 +2054,7 @@ var tgallKeyBoard = [
 ]
 
 
-var tallKeyBoard = [
+let tallKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}],
@@ -2061,7 +2064,7 @@ var tallKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var csKeyBoard = [
+let csKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}, {text: cs}],
@@ -2071,7 +2074,7 @@ var csKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var tcsKeyBoard = [
+let tcsKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}, {text: cs}],
@@ -2081,7 +2084,7 @@ var tcsKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var gcsKeyBoard = [
+let gcsKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}, {text: cs}],
@@ -2090,7 +2093,7 @@ var gcsKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var tgcsKeyBoard = [
+let tgcsKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}, {text: cs}],
@@ -2099,7 +2102,7 @@ var tgcsKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var exelKeyBoard = [
+let exelKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}],
@@ -2110,7 +2113,7 @@ var exelKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var texelKeyBoard = [
+let texelKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}],
@@ -2121,7 +2124,7 @@ var texelKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var gexelKeyBoard = [
+let gexelKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}],
@@ -2131,7 +2134,7 @@ var gexelKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var tgexelKeyBoard = [
+let tgexelKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}],
@@ -2141,7 +2144,7 @@ var tgexelKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var exelCsKeyBoard = [
+let exelCsKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}, {text: cs}],
@@ -2152,7 +2155,7 @@ var exelCsKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var texelCsKeyBoard = [
+let texelCsKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}, {text: cs}],
@@ -2163,7 +2166,7 @@ var texelCsKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var gexelCsKeyBoard = [
+let gexelCsKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}, {text: cs}],
@@ -2173,7 +2176,7 @@ var gexelCsKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var tgexelCsKeyBoard = [
+let tgexelCsKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: "Get all"}],
   [{text: ug}, {text: moodle}, {text: cs}],
@@ -2183,7 +2186,7 @@ var tgexelCsKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var malagKeyBoard = [
+let malagKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: ug}, {text: moodle}],
   [{text: facebook}],
@@ -2191,35 +2194,35 @@ var malagKeyBoard = [
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var gmalagKeyBoard = [
+let gmalagKeyBoard = [
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: ug}, {text: moodle}],
   [{text: courseGroup}, {text: facebook}],
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var tmalagKeyBoard = [
+let tmalagKeyBoard = [
   [{text: ug}, {text: moodle}],
   [{text: courseGroup}, {text: facebook}],
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var tgmalagKeyBoard = [
+let tgmalagKeyBoard = [
   [{text: ug}, {text: moodle}],
   [{text: courseGroup}, {text: facebook}],
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var sportKeyBoard = [
+let sportKeyBoard = [
   [{text: "Course info"}],
   [{text: "Add telegram group"}],
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
   [{text: mainMenu}, {text: "Search For Another Course"}]
 ]
 
-var gsportKeyBoard = [
+let gsportKeyBoard = [
   [{text: courseGroup}],
   [{text: "Course info"}],
   [{text: "Add to my course list \ud83d\udccd"}, {text: "My Courses \ud83d\udccc"}],
@@ -2227,13 +2230,13 @@ var gsportKeyBoard = [
 ]
 
 
-var contactKeyBoard = [
+let contactKeyBoard = [
   [{text: "Git"}],
   [{text: ContactLinkedIn}, {text: ContactEmail}],
   [{text: mainMenu}]
 ]
 
-var settingsKeyBoard = [
+let settingsKeyBoard = [
   [{text: "Gender"}],
   [{text: "Faculty"}],
   [{text: "Topic"}],
@@ -2242,14 +2245,14 @@ var settingsKeyBoard = [
   [{text: mainMenu}]
 ]
 
-var genderKeyBoard = [
+let genderKeyBoard = [
   [{text: "Male"}],
   [{text: "Female"}],
   [{text: "Back"}],
   [{text: mainMenu}]
 ]
 
-var topicKeyBoard = [
+let topicKeyBoard = [
   [{text: "Studies"}],
   [{text: "Emotional Distress"}],
   [{text: "Military experiences"}],
@@ -2258,21 +2261,21 @@ var topicKeyBoard = [
   [{text: mainMenu}]
 ]
 
-var helpKeyBoard = [
+let helpKeyBoard = [
   [{text: "Settings and Preference"}],
   [{text: WantToTalk}],
   [{text: WantToHelp}],
   [{text: mainMenu}]
 ]
 
-var busiKeyBoard = [
+let busiKeyBoard = [
   //[{ text : "Location"}],
   [{text: "Get in Contact"}],
   //[{ text: "Prices"}],
   [{text: mainMenu}]
 ]
 
-var busiEditKeyBoard = [
+let busiEditKeyBoard = [
 
   [{text: "Password"}],
   [{text: "Description"}],
