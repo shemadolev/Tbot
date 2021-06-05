@@ -182,6 +182,24 @@ function getFacultyRidesExcel() {
   return openedSS.facultyRides;
 }
 
+function makeKeyboard_CourseList({id,sectionBase, sectionsNum}){
+  let courseList = [];
+  let numberList = [];
+  for (let i = sectionBase + 1; i < sectionBase * sectionsNum; i += sectionBase) {
+    let currTopic = busi.getRange(1, i).getValue();
+    //sendText(id, "test: currTopic: "+currTopic);
+    numberList.push(currTopic);
+    courseList.push(currTopic);
+  }
+  courseList.push("Add a Topic \ud83c\udfea");
+  numberList.push("Add a Topic \ud83c\udfea");
+  //      courseList.push("Add a Business \ud83c\udfea");
+  //      numberList.push("Add a Business \ud83c\udfea");
+  //      courseList.push("Delete My Business \ud83d\udcdb");
+  //      numberList.push("Delete My Business \ud83d\udcdb");
+  makeKeyBoard(id, courseList, numberList);
+}
+
 //doPost(e)
 //Description: main function. Execution of the requests.
 //input: JSON. It may contain callback_query - input from external keyboard,
@@ -288,17 +306,7 @@ function doPost(e) {
         sendText(id, "In order to continue please provide your password");
         set(id, SFS, data, "PassToEdit");
       } else if (data == SFS) {
-        let courseList = [];
-        let numberList = [];
-        for (let i = sectionBase + 1; i < sectionBase * sectionsNum; i += sectionBase) {
-          let currTopic = busi.getRange(1, i).getValue();
-          //sendText(id, "test: currTopic: "+currTopic); 
-          numberList.push(currTopic);
-          courseList.push(currTopic);
-        }
-        courseList.push("Add a Topic \ud83c\udfea");
-        numberList.push("Add a Topic \ud83c\udfea");
-        makeKeyBoard(id, courseList, numberList);
+        makeKeyboard_CourseList({id,sectionBase, sectionsNum})
         set(id, SFS, name, "Wait");
       } else {
         let currBusi = busi.createTextFinder(data).findNext();
@@ -619,22 +627,7 @@ function doPost(e) {
     } else if (text == SFS) {
       sendText(id, "Students for Students is a project designed to encourage students to support other students businesses");
       let {busi, maxCol, maxRow, topicBase, sectionBase, sectionsNum} = getBusinessExcel();
-
-      let courseList = [];
-      let numberList = [];
-      for (let i = sectionBase + 1; i < sectionBase * sectionsNum; i += sectionBase) {
-        let currTopic = busi.getRange(1, i).getValue();
-        //sendText(id, "test: currTopic: "+currTopic); 
-        numberList.push(currTopic);
-        courseList.push(currTopic);
-      }
-      courseList.push("Add a Topic \ud83c\udfea");
-      numberList.push("Add a Topic \ud83c\udfea");
-      //      courseList.push("Add a Business \ud83c\udfea");
-      //      numberList.push("Add a Business \ud83c\udfea");
-      //      courseList.push("Delete My Business \ud83d\udcdb");
-      //      numberList.push("Delete My Business \ud83d\udcdb");
-      makeKeyBoard(id, courseList, numberList);
+      makeKeyboard_CourseList({id,sectionBase, sectionsNum});
       set(id, text, name, "Wait");
     }
 
