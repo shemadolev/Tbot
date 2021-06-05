@@ -193,10 +193,6 @@ function makeKeyboard_CourseList({id,sectionBase, sectionsNum}){
   }
   courseList.push("Add a Topic \ud83c\udfea");
   numberList.push("Add a Topic \ud83c\udfea");
-  //      courseList.push("Add a Business \ud83c\udfea");
-  //      numberList.push("Add a Business \ud83c\udfea");
-  //      courseList.push("Delete My Business \ud83d\udcdb");
-  //      numberList.push("Delete My Business \ud83d\udcdb");
   makeKeyBoard(id, courseList, numberList);
 }
 
@@ -379,49 +375,6 @@ function doPost(e) {
       let courseName = info[1];
       let courseLink = info[2];
     }
-    ///////////////////////////////////////////////password - not in use for now
-    /*
-    let app = SpreadsheetApp.openByUrl(userExel);
-    let ss = app.getActiveSheet();
-    let rows = ss.createTextFinder(id).findAll();
-    if (rows.length == 0) {
-      sendText(id, "Hi " + name + " \ud83d\udc4b, welcome to Tbot \ud83d\udcd6");
-      sendText(id, "To get access to the bot Please insert your Technion email address to get the first time log-in password");
-      let next = ss.getRange(2, 4).getValue();
-      ss.getRange(next, 1).setValue(id);
-      ss.getRange(next, 2).setValue("need to be verified");
-      if (name) ss.getRange(next, 3).setValue(name);
-      ss.getRange(2, 4).setValue(++next);
-      return;
-    } else {
-      let row = rows[0].getRow();
-      if (ss.getRange(row, 2).getValue() == "need to be verified") {
-        if (text.includes(firstLogInPassword)) {
-          set(id, 0, name, 0);
-          sendKey(id, "How may I help you?", mainKeyBoard);
-          sendText(id, "To add a course to your list, simply search for it in the courses, and click 'Add to My List' button");
-        } else if (text.includes("technion.ac.il")) {
-          sendText(id, "The passwors is sent to " + text + " please insert the password now");
-          // Fetch the email address
-          let emailAddress = text;
-          // Send Alert Email.
-          let message = text;
-          let subject = 'Tbot first log-in password';
-          MailApp.sendEmail(emailAddress, subject, "The password is: " + firstLogInPassword);
-          //TODO sent email
-        } else {
-          sendText(id, "To get access to the bot Please insert your Technion email address to get the first time log-in password");
-        }
-        return;
-      }
-    }
-  */
-    /*
-    else if (text == 'Re 404'){
-      sendText( , 'Hi, thank you for your feedback');
-      sendText( ,'You are right, I have not yet added a button that deletes a specific course. In the meantime, you can clear the list and build a new one. Hope to add an option to remove a specific course soon ..');
-      sendText(id, 'Your massage sent');
-    }*/
 
     if (text == "/start") { // || text == "hey" || text == 'היי' || text == "hello" || text == 'hi'
       sendText(id, "Hi " + name + " \ud83d\udc4b, welcome to Tbot \ud83d\udcd6");
@@ -557,10 +510,6 @@ function doPost(e) {
         users.getRange(idRow, currCol).setValue(0);
       }
       sendText(id, "your list is clean");
-//    }else if (text == "1928tok send"){
-//      sendText(810039866, "היי, ראיתי שניסית לדבר עם מישהו ולא היה לי עם מי לחבר אותך. כעת יש סטודנט פנוי שישמח לדבר איתך. אם אתה עדיין מעוניין לדבר תשלח חזרה את המילה כן");
-//      sendText(id, "היי, ראיתי שניסית לדבר עם מישהו ולא היה לי עם מי לחבר אותך. כעת יש סטודנט פנוי שישמח לדבר איתך. אם אתה עדיין מעוניין לדבר תשלח חזרה את המילה כן");
-//      sendText(id, "done")
     } else if (text == WantToTalk || (text == 'כן' && id == '810039866')) { //set an anonymous talk //id wanted to talk
       const {helpers} = getHelperListExcel();
 
@@ -634,10 +583,6 @@ function doPost(e) {
     //if mode - handle
     else if (mode == "Talk") {
       let otherId = users.getRange(row, 4).getValue();
-      //sendText(id, otherId);//test
-      //let app = SpreadsheetApp.openByUrl(helpList);
-      //let helpers = app.getSheetByName('helper');
-      //let needsHelp = app.getSheetByName('needHelp');
       if (text == "ביי" || text == "goodbye") { //text == "end" || text == "End" || text == 'quit' || text == "Quit"|| text == 'done' || text == "Done" ||
         sendText(otherId, text);
         sendText(id, "The conversation is over");
@@ -917,25 +862,6 @@ function doPost(e) {
         sendKey(id, "Your prefernce has been updated " + text + " faculty", settingsKeyBoard);
         return;
       }
-      //    }else if (mode == "Delete by Course Number"){
-      //      sendText(id, "Test");
-      //      //get course row
-      //      let courseToDelete = courses.createTextFinder(text).findNext().getRow();
-      //      sendText(id, courseToDelete);//test
-      //      let courseCol = 0;
-      //      let lastInCol;
-      //      let index = 5;
-      //      let currCourse = users.getRange(row, index).getValue();
-      //      while (currCourse){
-      //        if (currCourse == courseToDelete) courseCol = index;
-      //        currCourse = users.getRange(row, ++index).getValue();
-      //      }
-      //      if (courseCol){
-      //        let lastCourse = users.getRange(row, index-1).getValue();
-      //        users.getRange(row, courseCol).setValue(lastCourse);
-      //        users.getRange(row, index-1).setValue(0);
-      //      }
-      //      sendText(id, "Course number " + text + " is not on your list anymore");
     } else if (mode == SFS) {
       let {busi, maxCol, maxRow, topicBase, sectionBase, sectionsNum, topicNum} = getBusinessExcel();
 
@@ -1023,12 +949,6 @@ function doPost(e) {
         set(id, mode, 0, "Contact");
         return;
       }
-//      else if (otherMode ==  "Location"){//User gets here after sending the description
-//        busi.getRange(topicBase+topicCounter, topicCol+1).setValue(text);//set description
-//        sendText(id, "Please send the location details for your business");
-//        set(id, mode, 0, "Contact");
-//        return;
-//      }
       else if (otherMode == "Contact") {//User gets here after sending the location
         busi.getRange(topicBase + topicCounter, topicCol + 1).setValue(text);//set Description
         sendText(id, "We almost done! Please send the contact information for your business");
@@ -1036,12 +956,6 @@ function doPost(e) {
         set(id, mode, 0, "Done");
         return;
       }
-//      else if (otherMode ==  "Prices"){//User gets here after sending the contact information
-//        busi.getRange(topicBase+topicCounter, topicCol+3).setValue(text);//set contact information
-//        sendText(id, "Got it! The contact information is initialized. Now send the prices for your business");
-//        set(id, mode, 0, "Done");
-//        return;
-//      }
       else if (otherMode == "Done") {//User gets here after sending the prices
         busi.getRange(topicBase + topicCounter, topicCol + 3).setValue(text);//set contact info
         sendText(id, "Got it! Your business information is initialized, wish you luck!");
@@ -1907,18 +1821,6 @@ let printKeyBoard = [
   [{text: "B&W 4 slides per page, single sided"}, {text: "B&W 4 slides per page, two sided"}],
   [{text: mainMenu}]
 ]
-
-/*
-let coursesKeyBoardEn = [
-  [{ text: "Computer Science" }, { text: 'Electrical Engineering' }, { text: 'Mechanical Engineering' }],
-  [{ text: 'Civil and Environmental Engineering' }, { text: 'Industrial Engineering and Management' }, { text: 'Biomedical Engineering' }],
-  [{ text: 'Chemical Engineering' }, { text: 'Biotechnology and Food Engineering' }, { text: 'Materials Science & Engineering' }],
-  [{ text: 'Mathematics faculty' }, { text: 'Chemistry faculty' }, { text: 'Physics faculty' }, { text: 'Biology faculty' }],
-  [{ text: 'Medicine faculty' }, { text: 'Architecture and Town Planning' }, { text: 'Education in Science and Technology' }],
-  [{ text: "עברית" }],
-  [{ text: mainMenu }]
-]
-*/
 
 let coursesKeyBoard = [
   [{text: "סטודנטים בטכניון"}],
