@@ -1544,83 +1544,11 @@ function facultyGroupHandler(id, data) {
 function driveHandler(id, courseNumber, courseName) {
   let found = 0;
   let dApp = DriveApp;
-  let folderItr, folder, subFolderItr, semestersItr;
-  sendText(id, "Searching in CS..");
-  folderItr = dApp.getFoldersByName("Technion CS");
-  folder = folderItr.next();
-  subFolderItr = folder.getFolders();
-  while (subFolderItr.hasNext()) {
-    let subFolder = subFolderItr.next();
-    let currFolderName = subFolder.getName();
-    if (currFolderName.indexOf(courseNumber) !== -1) {
-      found = true;
-      sendText(id, currFolderName);
-      sendText(id, subFolder.getUrl());
-      return;
-    }
-  }
-  let scienceItr = folder.getFoldersByName("קורסים מדעיים");
-  let science = scienceItr.next();
-  subFolderItr = science.getFolders()
-  while (subFolderItr.hasNext()) {
-    let s = subFolderItr.next();
-    let currFolderName = s.getName();
-    if (currFolderName.indexOf(courseNumber) !== -1) {
-      found = true;
-      sendText(id, currFolderName);
-      sendText(id, s.getUrl());
-      return;
-    }
-  }
-  folderItr = dApp.getFoldersByName("Technion CS");
-  folder = folderItr.next();
-  let humanItr = folder.getFoldersByName("קורסים הומניים");
-  let human = humanItr.next();
-  subFolderItr = human.getFolders()
-  while (subFolderItr.hasNext()) {
-    let h = subFolderItr.next();
-    let currFolderName = h.getName();
-    if (currFolderName.indexOf(courseNumber) !== -1) {
-      found = true;
-      sendText(id, currFolderName);
-      sendText(id, h.getUrl());
-      return;
-    }
-  }
-  sendText(id, "Searching in Industrial Engineering and Management..");
-  folderItr = dApp.getFoldersByName("Technion Drive - Public");
-  folder = folderItr.next();
-  subFolderItr = folder.getFolders();
-  while (subFolderItr.hasNext()) {
-    let subFolder = subFolderItr.next();
-    let currFolderName = subFolder.getName();
-    if (currFolderName.indexOf(courseName) !== -1) {
-      found = true;
-      sendText(id, currFolderName);
-      sendText(id, subFolder.getUrl());
-      return;
-    }
-  }
-  sendText(id, "Searching in Electrical Engineering..");
-  folderItr = dApp.getFoldersByName("הנדסת חשמל טכניון");
-  folder = folderItr.next();
-  subFolderItr = folder.getFolders();
-  while (subFolderItr.hasNext()) {
-    let subFolder = subFolderItr.next();
-    let currFolderName = subFolder.getName();
-    if (currFolderName.indexOf(courseNumber) !== -1) {
-      sendText(id, currFolderName);
-      sendText(id, subFolder.getUrl());
-      return;
-    }
-  }
-  sendText(id, "Searching in Mechanical engineering..");
-  folderItr = dApp.getFoldersByName("הנדסת מכונות - דרייב פקולטי");
-  folder = folderItr.next();
-  semestersItr = folder.getFolders();
-  while (semestersItr.hasNext()) {
-    let semesters = semestersItr.next();
-    subFolderItr = semesters.getFolders();
+
+  function sendText_IterateFolder(folderName){
+    let folderItr = dApp.getFoldersByName(folderName);
+    let folder = folderItr.next();
+    let subFolderItr = folder.getFolders();
     while (subFolderItr.hasNext()) {
       let subFolder = subFolderItr.next();
       let currFolderName = subFolder.getName();
@@ -1632,46 +1560,34 @@ function driveHandler(id, courseNumber, courseName) {
       }
     }
   }
-  //The drive has been deleted
-//  sendText(id, "Searching in Civil engineering..");
-//  folderItr = dApp.getFoldersByName("אזרחית 2014");
-//  folder = folderItr.next();
-//  let semestersItr = folder.getFolders();
-//  while (semestersItr.hasNext()){
-//    let semesters = semestersItr.next();
-//    subFolderItr = semesters.getFolders();
-//    while (subFolderItr.hasNext()){
-//      let subFolder = subFolderItr.next();
-//      let currFolderName = subFolder.getName();
-//      if (currFolderName.indexOf(courseName) !== -1){
-//        found = true;
-//        sendText(id, currFolderName);
-//        sendText(id, subFolder.getUrl());
-//        return;
-//      }
-//    }
-//  }
+
+  sendText(id, "Searching in CS..");
+  sendText_IterateFolder("Technion CS");
+
+  sendText_IterateFolder("קורסים מדעיים");
+
+  sendText_IterateFolder("קורסים הומניים");
+
+  sendText(id, "Searching in Industrial Engineering and Management..");
+  sendText_IterateFolder("Technion Drive - Public")
+
+  sendText(id, "Searching in Electrical Engineering..");
+  sendText_IterateFolder("הנדסת חשמל טכניון");
+
+
+  sendText(id, "Searching in Mechanical engineering..");
+  sendText_IterateFolder("הנדסת מכונות - דרייב פקולטי");
+
   sendText(id, "Searching in Physics..");
-  folderItr = dApp.getFoldersByName("PhysicsDrive");
-  folder = folderItr.next();
-  subFolderItr = folder.getFolders();
-  while (subFolderItr.hasNext()) {
-    let subFolder = subFolderItr.next();
-    let currFolderName = subFolder.getName();
-    if (currFolderName.indexOf(courseNumber) !== -1) {
-      found = true;
-      sendText(id, currFolderName);
-      sendText(id, subFolder.getUrl());
-      return;
-    }
-  }
+  sendText_IterateFolder("PhysicsDrive");
+
   sendText(id, "Searching in Aerospace Engineering..");
-  folderItr = dApp.getFoldersByName("טכניון");
-  folder = folderItr.next();
-  semestersItr = folder.getFolders();
+  let folderItr = dApp.getFoldersByName("טכניון");
+  let folder = folderItr.next();
+  let semestersItr = folder.getFolders();
   while (semestersItr.hasNext()) {
     let semesters = semestersItr.next();
-    subFolderItr = semesters.getFolders();
+    let subFolderItr = semesters.getFolders();
     while (subFolderItr.hasNext()) {
       let subFolder = subFolderItr.next();
       let currFolderName = subFolder.getName();
