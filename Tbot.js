@@ -1793,6 +1793,7 @@ function updateCourses() {
   let str = getCourses();
   let crs = SpreadsheetApp.openByUrl(courseExel).getActiveSheet();
   while (str.indexOf("general") !== -1) {
+    let crsSil, crsKdam, crsProf, crsA, crsB;
     str = str.slice(str.indexOf("general"));
     str = str.slice(str.indexOf("פקולטה"));
     str = str.slice(str.indexOf(":"));
@@ -1811,40 +1812,41 @@ function updateCourses() {
       str = str.slice(str.indexOf("סילבוס"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      let crsSil = str.slice(0, str.indexOf('"'));
+       crsSil = str.slice(0, str.indexOf('"'));
     }
     let kdamIndex = str.indexOf("מקצועות קדם")
     if (kdamIndex !== -1) {
       str = str.slice(str.indexOf("מקצועות קדם"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      let crsKdam = str.slice(0, str.indexOf('"'));
+       crsKdam = str.slice(0, str.indexOf('"'));
     }
     let profIndex = str.indexOf("אחראים");
     if (profIndex !== -1) {
       str = str.slice(str.indexOf("אחראים"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      let crsProf = str.slice(0, str.indexOf('"'));
+       crsProf = str.slice(0, str.indexOf('"'));
     }
     let AIndex = str.indexOf("מועד א");
     if (AIndex !== -1) {
       str = str.slice(str.indexOf("מועד א"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      let crsA = str.slice(0, str.indexOf('"'));
+       crsA = str.slice(0, str.indexOf('"'));
     }
     let BIndex = str.indexOf("מועד ב");
     if (BIndex) {
       str = str.slice(str.indexOf("מועד ב"));
       str = str.slice(str.indexOf(":"));
       str = str.slice(2);
-      let crsB = str.slice(0, str.indexOf('"'));
+       crsB = str.slice(0, str.indexOf('"'));
     }
     let courseFinder = crs.createTextFinder(crsNum);
     let cell = courseFinder.findNext();
+    let nextFreeRow;
     if (!(cell)) {
-      let nextFreeRow = crs.getRange(1292, 1).getValue();
+      nextFreeRow = crs.getRange(1292, 1).getValue();
       crs.getRange(1292, 1).setValue(nextFreeRow + 1);
       crs.getRange(nextFreeRow, 5).setValue(crsFaculty);
       crs.getRange(nextFreeRow, 2).setValue(crsName);
