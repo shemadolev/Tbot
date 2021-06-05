@@ -35,7 +35,7 @@ var attentionSy = "\ud83d\udc49";
 var downSy = "\ud83d\udc47";
 var YouTubeSy = "\ud83d\udcfa";
 var mainSy = "\ud83c\udfe0";
-var Korona = "אסט - עדכונים";
+var Corona = "אסט - עדכונים";
 var help = "Talk To Me" + " \ud83d\udd34";
 var About = "About " + "\ud83c\udf0e";
 var WantToHelp = "I want to help";
@@ -61,13 +61,13 @@ var cs = "CS " + csSy;
 
 var ContactFacebook = "facebook";
 var ContactEmail = "email";
-var ContactLinkdIn = "linkedin";
+var ContactLinkedIn = "linkedin";
 
 var WantToTalk = "Anonymous talk with a student";
 var SFS = "Students Business " + "\ud83d\udcb8";
 
 
-//functions that handels the fetching of the commands from the users
+//functions that handles the fetching of the commands from the users
 function getMe() {
   var response = UrlFetchApp.fetch(url + "/getMe");
   Logger.log(response.getContentText());
@@ -79,8 +79,8 @@ function getUpdates() {
 }
 
 //sendText(chatId, text, keyBoard)
-//Description: sends text to chatId with exeternal keyboared(optional).
-//input: chat id, string and the name of the exeternal keyboared(optional).
+//Description: sends text to chatId with external keyboard (optional).
+//input: chat id, string and the name of the external keyboard (optional).
 function sendText(chatId, text, keyBoard) {
   var data = {
     method: "post",
@@ -98,8 +98,8 @@ function sendText(chatId, text, keyBoard) {
 }
 
 //sendKey(chatId, text, keyBoard)
-//Description: sends text to chatId with internal keyboared(optional).
-//input: chat id, string and the name of the internal keyboared(optional).
+//Description: sends text to chatId with internal keyboard(optional).
+//input: chat id, string and the name of the internal keyboard(optional).
 function sendKey(chatId, text, keyBoard) {
   var data = {
     method: "post",
@@ -141,9 +141,9 @@ function doGet(e) {
 }
 
 //doPost(e)
-//Description: main function. Execution of the requestes.
-//input: JSON. It may contain callback_query - input from exeternal keyboard, 
-//or massege - input from text sent from the user or internal keyboard.
+//Description: main function. Execution of the requests.
+//input: JSON. It may contain callback_query - input from external keyboard,
+//or message - input from text sent from the user or internal keyboard.
 function doPost(e) {
   var userEx = SpreadsheetApp.openByUrl(userExel);
   var users = userEx.getActiveSheet();
@@ -344,8 +344,8 @@ function doPost(e) {
     var app = SpreadsheetApp.openByUrl(userExel);
     var ss = app.getActiveSheet();
     var rows = ss.createTextFinder(id).findAll();
-    if (rows.length == 0){
-      sendText(id, "Hi " + name + " \ud83d\udc4b, welcome to Tbot \ud83d\udcd6");   
+    if (rows.length == 0) {
+      sendText(id, "Hi " + name + " \ud83d\udc4b, welcome to Tbot \ud83d\udcd6");
       sendText(id, "To get access to the bot Please insert your Technion email address to get the first time log-in password");
       var next = ss.getRange(2, 4).getValue();
       ss.getRange(next, 1).setValue(id);
@@ -353,28 +353,29 @@ function doPost(e) {
       if (name) ss.getRange(next, 3).setValue(name);
       ss.getRange(2, 4).setValue(++next);
       return;
-    }else{
+    } else {
       var row = rows[0].getRow();
-      if (ss.getRange(row, 2).getValue() == "need to be verified"){
-        if (text.includes(fisrtLogInPassword)){
+      if (ss.getRange(row, 2).getValue() == "need to be verified") {
+        if (text.includes(firstLogInPassword)) {
           set(id, 0, name, 0);
           sendKey(id, "How may I help you?", mainKeyBoard);
           sendText(id, "To add a course to your list, simply search for it in the courses, and click 'Add to My List' button");
-        }else if (text.includes("technion.ac.il")){
-          sendText(id, "The passwors is sent to "+ text+ " please insert the password now");
+        } else if (text.includes("technion.ac.il")) {
+          sendText(id, "The passwors is sent to " + text + " please insert the password now");
           // Fetch the email address
           var emailAddress = text;
-              // Send Alert Email.
-              var message = text; 
-              var subject = 'Tbot first log-in password';
-          MailApp.sendEmail(emailAddress, subject, "The password is: "+fisrtLogInPassword);
+          // Send Alert Email.
+          var message = text;
+          var subject = 'Tbot first log-in password';
+          MailApp.sendEmail(emailAddress, subject, "The password is: " + firstLogInPassword);
           //TODO sent email
-        }else{
+        } else {
           sendText(id, "To get access to the bot Please insert your Technion email address to get the first time log-in password");
         }
         return;
       }
-    }*/
+    }
+  */
     /*
     else if (text == 'Re 404'){
       sendText( , 'Hi, thank you for your feedback');
@@ -529,7 +530,7 @@ function doPost(e) {
         " the best one for you.. ");
       var helperId = findHelper(id);
       if (helperId == 0) {
-        sendText(id, "There is no availble helper for now, please try again later..");
+        sendText(id, "There is no available helper for now, please try again later..");
         return;
       }
       //check if in talk already
@@ -657,7 +658,7 @@ function doPost(e) {
       }
     } else if (mode == 'Add course') {
       if (!(courseNumber) || !(courseName)) {
-        sendText(id, "Wrong format. please inset your review in the followog format: course number-course name-group link");
+        sendText(id, "Wrong format. please inset your review in the following format: course number-course name-group link");
         sendKey(id, "What would you like to do next?", mainKeyBoard);
       } else {
         courseAdd(id, courseNumber, courseName, courseLink, courses);
@@ -857,7 +858,7 @@ function doPost(e) {
             var lastId = helpers.getRange(helperRow, nextFree - 1).getValue();
             helpers.getRange(helperRow, IdCol).setValue(lastId);
 
-            //sendText to hlper
+            //sendText to helper
             if (IdCol !== nextFree - 1) {
               var studentNumber = IdCol - 9;
               sendText(helperId, "Student number " + studentNumber + " no longer needs your help.");
@@ -965,7 +966,7 @@ function doPost(e) {
             busi.getRange(2, nextCol - 1).setValue(lastRow - 2 - 1);
             sendText(id, "Your business has been deleted");
           } else {
-            sendText(id, "The password is wrong! please try again. You can contanct us in case that you forgot your password.");
+            sendText(id, "The password is wrong! please try again. You can contact us in case that you forgot your password.");
           }
         }
         return;
@@ -976,7 +977,7 @@ function doPost(e) {
           var nextRow = next.getRow();
           var nextCol = next.getColumn();
           if (text == busi.getRange(nextRow, nextCol - 1).getValue()) { //the password is good
-            sendKey(id, "What information wuold you like to modify?", busiEditKeyBoard);
+            sendKey(id, "What information would you like to modify?", busiEditKeyBoard);
             set(id, SFS, 0, "GoodPass")
           } else {
             sendText(id, "The password is wrong! please try again. You can contanct us in case that you forgot your password.");
@@ -1006,7 +1007,7 @@ function doPost(e) {
         else {
           busi.getRange(topicBase + topicCounter + 1, topicCol).setValue(text);//set name
           sendText(id, text + " is initialized. Please send a password in order to be able to make changes in the future..");
-          busi.getRange(2, topicCol - 1).setValue(topicCounter + 1);//conter++
+          busi.getRange(2, topicCol - 1).setValue(topicCounter + 1);//counter++
           set(id, mode, 0, "Description");
         }
         return;
@@ -1155,8 +1156,8 @@ function findHelper(id) {
           var score = 0;
           if (tempHelperId == id) score -= 1000;
           var blackIndex = 6;
-          var blackcounter = needsHelp.getRange(needsHelpRow, blackIndex).getValue();
-          for (var k = 1; k <= blackcounter; k++) {
+          var blackCounter = needsHelp.getRange(needsHelpRow, blackIndex).getValue();
+          for (var k = 1; k <= blackCounter; k++) {
             var blackId = needsHelp.getRange(needsHelpRow, blackIndex + k).getValue();
             if (tempHelperId == blackId) score -= 1000;
           }
@@ -1210,7 +1211,7 @@ function simpleText(id, text) {
     sendText(id, "https://www.facebook.com/michael.toker");
   } else if (text == ContactEmail) {
     sendText(id, "dontokeron@gmail.com");
-  } else if (text == ContactLinkdIn) {
+  } else if (text == ContactLinkedIn) {
     sendText(id, "https://www.linkedin.com/in/michael-toker-52814b153");
   } else if (text == usefulLink) {
     sendKey(id, "Here are some useful links for you", usefulKeyBoard);
@@ -1289,7 +1290,7 @@ function simpleText(id, text) {
     sendKey(id, "https://www.asatechnion.co.il/", usefulKeyBoard);
   } else if (text == 'ניב סקרביאנסקי') {
     sendKey(id, 'https://drive.google.com/file/d/11-zadZjM-0qDwc0qrWXHVygLN7aKkqna/view?usp=drivesdk', mainKeyBoard);
-  } else if (text == Korona) {
+  } else if (text == Corona) {
     sendText(id, "https://t.me/asat_technion");
     //}else if (text == 'חזור'){
     //  sendKey(id, "Choose from the list below", helpKeyBoard);
@@ -1634,7 +1635,7 @@ function driveHandler(id, courseNumber, courseName) {
       }
     }
   }
-  //The drive has beed deleted
+  //The drive has been deleted
 //  sendText(id, "Searching in Civil engineering..");
 //  var folderItr = dApp.getFoldersByName("אזרחית 2014");
 //  var folder = folderItr.next();
@@ -1721,7 +1722,7 @@ function courseAdd(id, courseNumber, courseName, link, courses) {
   }
 }
 
-//not so usefull feature, probably goes down
+//not so useful feature, probably goes down
 function reviewsHandler(id, i, courses, isAll) {
   sendText(id, "Looking for reviews " + reviewsSy);
   var j = 7;
@@ -1737,7 +1738,7 @@ function reviewsHandler(id, i, courses, isAll) {
 
 //important function set(id, data, name, num)
 //Description: the function changes the cell in the sheets according to the data and num variables. 
-//That way the bot can "remmeber" the previous commands in order to complete the commands.
+//That way the bot can "remember" the previous commands in order to complete the commands.
 //input: user id, data(string) that determines the state of the student in the sheets,
 //name of the user and num that most of the time is the number of the course
 function set(id, data, name, num) {
@@ -1979,7 +1980,7 @@ var usefulKeyBoard = [
   [{text: "cheese&fork"}, {text: "scans - cf"}, {text: "testock"}],
   [{text: "moodle " + moodleSy}, {text: "ug " + ugSy}, {text: calendar}],
   [{text: "ASA"}, {text: "אסט"}, {text: "Copiers and printers"}],
-  [{text: "MyDegree"}, {text: Korona}],
+  [{text: "MyDegree"}, {text: Corona}],
   [{text: mainMenu}]
 ]
 var printKeyBoard = [
@@ -2228,7 +2229,7 @@ var gsportKeyBoard = [
 
 var contactKeyBoard = [
   [{text: "Git"}],
-  [{text: ContactLinkdIn}, {text: ContactEmail}],
+  [{text: ContactLinkedIn}, {text: ContactEmail}],
   [{text: mainMenu}]
 ]
 
